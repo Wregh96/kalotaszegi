@@ -1,195 +1,433 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalotaszegi Régiségek – Admin Feltöltés</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalotaszegi Régiségek</title>
   <style>
     body {
       font-family: Georgia, serif;
-      background-color: #f5f5f5;
+      background-color: #f5f0e6;
       margin: 0;
       padding: 0;
     }
     header {
-      background-color: #781f1f;
+      background-color: #8b5e3c;
       color: white;
+      padding: 20px;
       text-align: center;
-      padding: 1.5rem;
     }
     nav {
-      text-align: center;
-      margin-top: 1rem;
+      background-color: #d2b48c;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
     }
-    nav button {
-      margin: 0 0.5rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      background-color: #ddd;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    nav button.active {
-      background-color: #781f1f;
-      color: white;
-    }
-    .container {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #444;
-    }
-    form input, form select, form button {
-      width: 100%;
-      padding: 0.7rem;
-      margin: 0.5rem 0;
-      box-sizing: border-box;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    form button {
-      background-color: #0073e6;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    form button:hover {
-      background-color: #005bb5;
-    }
-    #status {
-      text-align: center;
+    nav a {
+      text-decoration: none;
+      color: #000;
       font-weight: bold;
-      margin-top: 1rem;
+      cursor: pointer;
     }
-    .success {
-      color: green;
+    .gallery {
+      display: flex;
+      overflow: hidden;
+      max-width: 100%;
+      height: 300px;
+      position: relative;
     }
-    .error {
-      color: red;
+    .gallery img {
+      width: 100%;
+      object-fit: cover;
+    }
+    main {
+      padding: 20px;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .product {
+      border: 1px solid #aaa;
+      padding: 10px;
+      margin: 10px 0;
+      background: #fff;
+    }
+    .product img {
+      max-width: 100px;
+      display: block;
+      margin-top: 5px;
     }
     footer {
       text-align: center;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #888;
+      padding: 10px;
+      background: #8b5e3c;
+      color: white;
     }
-    #introText {
-      font-size: 1.6rem;
-      font-weight: bold;
-      text-align: center;
-      text-transform: uppercase;
-      margin-top: 20px;
-      color: #5a4232;
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    textarea,
+    input[type="text"],
+    input[type="file"],
+    input[type="password"] {
+      width: 100%;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Kalotaszegi Régiségek – Admin Feltöltés</h1>
+    <h1>Kalotaszegi Régiségek</h1>
   </header>
 
   <nav>
-    <button onclick="filterCategory('butor')">Bútorok</button>
-    <button onclick="filterCategory('ruha')">Ruhák</button>
-    <button onclick="filterCategory('disztargy')">Dísztárgyak</button>
-    <button onclick="filterCategory('egyeb')">Egyéb</button>
+    <a onclick="showSection('fooldal')">Főoldal</a>
+    <a onclick="showSection('butorok')">Bútorok</a>
+    <a onclick="showSection('ruhak')">Ruhák</a>
+    <a onclick="showSection('disztargyak')">Dísztárgyak</a>
+    <a onclick="showSection('egyeb')">Egyéb</a>
+    <a onclick="showSection('kapcsolat')">Kapcsolat</a>
+    <a onclick="showSection('admin')">Admin</a>
   </nav>
 
-  <div class="container">
-    <h2>Kép és termék feltöltése</h2>
-    <form onsubmit="uploadImage(event)">
-      <input type="text" id="productCode" placeholder="Termékkód (pl. #101)" required>
-      <input type="text" id="productName" placeholder="Termék neve" required>
-      <select id="productCategory">
-        <option value="butor">Bútor</option>
-        <option value="ruha">Ruha</option>
-        <option value="disztargy">Dísztárgy</option>
-        <option value="egyeb">Egyéb</option>
-      </select>
-      <input type="file" id="fileInput" accept="image/jpeg,image/png" required>
-      <button type="submit">Feltöltés</button>
-    </form>
-    <div id="status"></div>
-  </div>
+  <main>
+    <section id="fooldal" class="active">
+      <div class="gallery">
+        <img id="mainImage" src="slide1.jpg" alt="Kép 1" />
+      </div>
+      <p id="intro">Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.</p>
+    </section>
 
-  <footer>
-    &copy; 2025 Kalotaszegi Régiségek – Minden jog fenntartva.
-  </footer>
+    <section id="butorok">
+      <div class="search-bar">
+        <label for="search">Termékszám keresés: </label>
+        <input type="text" id="search" placeholder="Pl.: 102" />
+      </div>
+      <h2>Bútorok</h2>
+      <div id="butorLista"></div>
+    </section>
+
+    <section id="ruhak">
+      <h2>Ruhák</h2>
+      <div id="ruhakLista"></div>
+    </section>
+
+    <section id="disztargyak">
+      <h2>Dísztárgyak</h2>
+      <div id="disztargyakLista"></div>
+    </section>
+
+    <section id="egyeb">
+      <h2>Egyéb</h2>
+      <div id="egyebLista"></div>
+    </section>
+
+    <section id="kapcsolat">
+      <h2>Kapcsolat</h2>
+      <p>
+        Érdeklődés esetén kérjük írjon:
+        <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>
+      </p>
+    </section>
+
+    <section id="admin">
+      <div id="loginSection">
+        <h2>Bejelentkezés</h2>
+        <input
+          type="password"
+          id="adminPass"
+          placeholder="Admin jelszó"
+          autocomplete="off"
+        />
+        <button onclick="login()">Belépés</button>
+      </div>
+
+      <div id="adminPanel" style="display: none">
+        <h2>Admin szerkesztő</h2>
+
+        <h3>Főoldali szöveg szerkesztése</h3>
+        <textarea id="introText" rows="4"></textarea>
+        <button onclick="saveIntro()">Mentés</button>
+
+        <h3>Főoldali kép feltöltése</h3>
+        <input type="file" id="mainImageUpload" accept="image/*" />
+        <button onclick="uploadMainImage()">Kép feltöltése</button>
+
+        <h3>Új bútor hozzáadása</h3>
+        <input type="text" id="productCode" placeholder="Termékszám (pl. #103)" />
+        <input type="text" id="productName" placeholder="Bútor neve" />
+        <input type="file" id="productImage" accept="image/*" />
+        <button onclick="uploadToNetlifyAndAddProduct('butorok')">Hozzáadás</button>
+
+        <h3>Új ruha hozzáadása</h3>
+        <input type="text" id="ruhaCode" placeholder="Termékszám (pl. #201)" />
+        <input type="text" id="ruhaName" placeholder="Ruha neve" />
+        <input type="file" id="ruhaImage" accept="image/*" />
+        <button onclick="uploadToNetlifyAndAddProduct('ruhak')">Hozzáadás</button>
+
+        <h3>Új dísztárgy hozzáadása</h3>
+        <input type="text" id="disztargyCode" placeholder="Termékszám (pl. #301)" />
+        <input type="text" id="disztargyName" placeholder="Dísztárgy neve" />
+        <input type="file" id="disztargyImage" accept="image/*" />
+        <button onclick="uploadToNetlifyAndAddProduct('disztargyak')">Hozzáadás</button>
+
+        <h3>Új egyéb termék hozzáadása</h3>
+        <input type="text" id="egyebCode" placeholder="Termékszám (pl. #401)" />
+        <input type="text" id="egyebName" placeholder="Termék neve" />
+        <input type="file" id="egyebImage" accept="image/*" />
+        <button onclick="uploadToNetlifyAndAddProduct('egyeb')">Hozzáadás</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 Kalotaszegi Régiségek</footer>
 
   <script>
-    const STATUS = document.getElementById('status');
+    const NETLIFY_SITE_NAME = "kalotaszegi";
+    const NETLIFY_TOKEN = "nfp_bHLN4Z4PedronoivLkWDuR8Y7PLV5ygR8d8b";
+    const NETLIFY_UPLOAD_URL = `https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_NAME}/media`;
+    const ADMIN_PASSWORD = "590678601";
 
-    async function uploadImage(event) {
-      event.preventDefault();
+    function showSection(id) {
+      document.querySelectorAll("main section").forEach((sec) => {
+        sec.classList.remove("active");
+      });
+      document.getElementById(id).classList.add("active");
+    }
 
-      const fileInput = document.getElementById('fileInput');
-      const code = document.getElementById('productCode').value.trim();
-      const name = document.getElementById('productName').value.trim();
-      const category = document.getElementById('productCategory').value;
-      const file = fileInput.files[0];
+    function login() {
+      const pw = document.getElementById("adminPass").value;
+      if (pw === ADMIN_PASSWORD) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+      } else {
+        alert("Hibás jelszó!");
+      }
+    }
 
-      if (!file) {
-        STATUS.textContent = 'Kérlek válassz ki egy képfájlt!';
-        STATUS.className = 'error';
+    function saveIntro() {
+      const newText = document.getElementById("introText").value;
+      document.getElementById("intro").textContent = newText;
+      localStorage.setItem("introText", newText);
+      alert("Mentve");
+    }
+
+    async function uploadMainImage() {
+      const imageInput = document.getElementById("mainImageUpload");
+      if (!imageInput.files[0]) return alert("Nem választottál ki képet.");
+
+      const formData = new FormData();
+      formData.append("file", imageInput.files[0]);
+      formData.append("title", imageInput.files[0].name);
+
+      try {
+        const response = await fetch(NETLIFY_UPLOAD_URL, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${NETLIFY_TOKEN}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          alert("Hiba a kép feltöltésénél: " + response.status + " " + errText);
+          console.error("Upload error:", response.status, errText);
+          return;
+        }
+
+        const result = await response.json();
+        const imageURL = result.url || result.sha;
+        if (!imageURL) {
+          alert("Nem kaptunk vissza képet a szervertől.");
+          return;
+        }
+
+        document.getElementById("mainImage").src = imageURL;
+        localStorage.setItem("mainImage", imageURL);
+        alert("Kép feltöltve és frissítve!");
+      } catch (error) {
+        alert("Hiba a kép feltöltésénél.");
+        console.error(error);
+      }
+    }
+
+    async function uploadToNetlifyAndAddProduct(category) {
+      let code, name, imageInput;
+
+      switch (category) {
+        case "butorok":
+          code = document.getElementById("productCode").value.trim();
+          name = document.getElementById("productName").value.trim();
+          imageInput = document.getElementById("productImage");
+          break;
+        case "ruhak":
+          code = document.getElementById("ruhaCode").value.trim();
+          name = document.getElementById("ruhaName").value.trim();
+          imageInput = document.getElementById("ruhaImage");
+          break;
+        case "disztargyak":
+          code = document.getElementById("disztargyCode").value.trim();
+          name = document.getElementById("disztargyName").value.trim();
+          imageInput = document.getElementById("disztargyImage");
+          break;
+        case "egyeb":
+          code = document.getElementById("egyebCode").value.trim();
+          name = document.getElementById("egyebName").value.trim();
+          imageInput = document.getElementById("egyebImage");
+          break;
+        default:
+          alert("Ismeretlen kategória");
+          return;
+      }
+
+      if (!code || !name) {
+        alert("Kérlek töltsd ki a termékszámot és nevet!");
         return;
       }
 
-      STATUS.textContent = 'Feltöltés folyamatban...';
-      STATUS.className = '';
+      if (!imageInput.files[0]) {
+        addProduct(category, code, name, "");
+        clearInputs(category);
+        return;
+      }
 
-      const reader = new FileReader();
-      reader.onloadend = async function () {
-        const content = reader.result.split(',')[1];
-        const extension = file.name.split('.').pop();
-        const baseFileName = `${code.replace(/[^a-zA-Z0-9]/g, '_')}_${name.replace(/[^a-zA-Z0-9]/g, '_')}`;
-        const finalFileName = `${baseFileName}.${extension}`;
-        const path = `uploads/${category}/${finalFileName}`;
+      const formData = new FormData();
+      formData.append("file", imageInput.files[0]);
+      formData.append("title", imageInput.files[0].name);
 
-        try {
-          const response = await fetch('/.netlify/functions/upload-to-git', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              fileName: finalFileName,
-              content: content,
-              path: path
-            })
-          });
+      try {
+        const response = await fetch(NETLIFY_UPLOAD_URL, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${NETLIFY_TOKEN}`,
+          },
+        });
 
-          const result = await response.json();
-
-          if (response.ok) {
-            STATUS.innerHTML = `Sikeres feltöltés:<br><code>${result.path}</code><br><strong>${code}</strong> – ${name}<br><img src="https://raw.githubusercontent.com/felhasznalonev/repo-nev/main/${result.path}" style="max-width:100%; margin-top:10px;">`;
-            STATUS.className = 'success';
-          } else {
-            STATUS.textContent = `Hiba: ${result.error}`;
-            STATUS.className = 'error';
-          }
-        } catch (err) {
-          STATUS.textContent = `Hálózati hiba: ${err.message}`;
-          STATUS.className = 'error';
+        if (!response.ok) {
+          const errText = await response.text();
+          alert("Hiba a kép feltöltésénél: " + response.status + " " + errText);
+          console.error("Upload error:", response.status, errText);
+          return;
         }
-      };
-      reader.readAsDataURL(file);
+
+        const result = await response.json();
+        const imageURL = result.url || result.sha;
+        if (!imageURL) {
+          alert("Nem kaptunk vissza képet a szervertől.");
+          return;
+        }
+
+        addProduct(category, code, name, imageURL);
+        clearInputs(category);
+        alert("Termék hozzáadva!");
+      } catch (error) {
+        alert("Hiba a kép feltöltésénél.");
+        console.error(error);
+      }
     }
 
-    function filterCategory(category) {
-      document.getElementById('productCategory').value = category;
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach(btn => btn.classList.remove('active'));
-      const activeButton = Array.from(buttons).find(btn => btn.textContent.toLowerCase().includes(category));
-      if (activeButton) activeButton.classList.add('active');
+    function addProduct(category, code, name, imageURL) {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML =
+        `${code} - ${name}` + (imageURL ? `<br><img src="${imageURL}" alt="${name}">` : "");
+
+      let listId = "";
+      switch (category) {
+        case "butorok":
+          listId = "butorLista";
+          break;
+        case "ruhak":
+          listId = "ruhakLista";
+          break;
+        case "disztargyak":
+          listId = "disztargyakLista";
+          break;
+        case "egyeb":
+          listId = "egyebLista";
+          break;
+      }
+
+      document.getElementById(listId).appendChild(div);
+
+      const key = category + "Items";
+      const items = JSON.parse(localStorage.getItem(key) || "[]");
+      items.push({ code, name, imageURL });
+      localStorage.setItem(key, JSON.stringify(items));
     }
-  </script>
-</body>
-</html>
+
+    function clearInputs(category) {
+      switch (category) {
+        case "butorok":
+          document.getElementById("productCode").value = "";
+          document.getElementById("productName").value = "";
+          document.getElementById("productImage").value = "";
+          break;
+        case "ruhak":
+          document.getElementById("ruhaCode").value = "";
+          document.getElementById("ruhaName").value = "";
+          document.getElementById("ruhaImage").value = "";
+          break;
+        case "disztargyak":
+          document.getElementById("disztargyCode").value = "";
+          document.getElementById("disztargyName").value = "";
+          document.getElementById("disztargyImage").value = "";
+          break;
+        case "egyeb":
+          document.getElementById("egyebCode").value = "";
+          document.getElementById("egyebName").value = "";
+          document.getElementById("egyebImage").value = "";
+          break;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // Betölti a mentett főoldali szöveget
+      const savedIntro = localStorage.getItem("introText");
+      if (savedIntro) {
+        document.getElementById("intro").textContent = savedIntro;
+        document.getElementById("introText").value = savedIntro;
+      }
+
+      // Betölti a mentett főoldali képet
+      const savedImage = localStorage.getItem("mainImage");
+      if (savedImage) {
+        document.getElementById("mainImage").src = savedImage;
+      }
+
+      // Betölti a mentett bútorokat
+      const butorItems = JSON.parse(localStorage.getItem("butorokItems") || "[]");
+      butorItems.forEach((item) => {
+        addProduct("butorok", item.code, item.name, item.imageURL);
+      });
+
+      // Betölti a mentett ruhákat
+      const ruhakItems = JSON.parse(localStorage.getItem("ruhakItems") || "[]");
+      ruhakItems.forEach((item) => {
+        addProduct("ruhak", item.code, item.name, item.imageURL);
+      });
+
+      // Betölti a mentett dísztárgyakat
+      const disztargyakItems = JSON.parse(localStorage.getItem("disztargyakItems") || "[]");
+      disztargyakItems.forEach((item) => {
+        addProduct("disztargyak", item.code, item.name, item.imageURL);
+      });
+
+      // Betölti a mentett egyéb termékeket
+      const egyebItems = JSON.parse(localStorage.getItem("egyebItems") || "[]");
+      egyebItems.forEach((item) => {
+        addProduct("egyeb", item.code, item.name, item.imageURL);
+      });
+
+      // Kereső funkció a bútoroknál
+      document.getElementById("search")?.addEventListener("input", function () {
+        const value = this.value.trim();
+        const products = document.querySelectorAll("#butorLista .product");
+        products.forEach((p) => {
+          p.style.display = p.textContent.includes(value) ? "b
