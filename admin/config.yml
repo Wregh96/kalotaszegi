@@ -1,66 +1,68 @@
 backend:
-  name: github
-  repo: Wregh96/kalotaszegi
+  name: git-gateway
   branch: main
 
-media_folder: "public/uploads"
+media_folder: "static/uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "home"
-    label: "Főoldal"
-    files:
-      - file: "content/home.json"
-        label: "Főoldal és slideshow"
-        name: "home"
-        fields:
-          - { label: "Főoldali szöveg", name: "text", widget: "text" }
-          - { label: "Slideshow képek", name: "slides", widget: "list", field: { label: "Kép", name: "slide", widget: "image" } }
-
   - name: "butorok"
     label: "Bútorok"
-    file: "content/butorok.json"
+    label_singular: "Bútor"
+    folder: "content/butorok"
+    create: true
+    slug: "{{slug}}"
     fields:
-      - label: "Termékek"
-        name: "products"
-        widget: "list"
-        fields:
-          - { label: "Termékszám", name: "id", widget: "string" }
-          - { label: "Név", name: "name", widget: "string" }
-          - { label: "Kép", name: "image", widget: "image" }
-
+      - {label: "ID", name: "id", widget: "number", required: true}
+      - {label: "Név", name: "name", widget: "string", required: true}
+      - {label: "Kép", name: "image", widget: "image", required: true}
   - name: "ruhak"
     label: "Ruhák"
-    file: "content/ruhak.json"
+    label_singular: "Ruha"
+    folder: "content/ruhak"
+    create: true
+    slug: "{{slug}}"
     fields:
-      - label: "Termékek"
-        name: "products"
-        widget: "list"
-        fields:
-          - { label: "Termékszám", name: "id", widget: "string" }
-          - { label: "Név", name: "name", widget: "string" }
-          - { label: "Kép", name: "image", widget: "image" }
-
+      - {label: "ID", name: "id", widget: "number", required: true}
+      - {label: "Név", name: "name", widget: "string", required: true}
+      - {label: "Kép", name: "image", widget: "image", required: true}
   - name: "disztargyak"
     label: "Dísztárgyak"
-    file: "content/disztargyak.json"
+    label_singular: "Dísztárgy"
+    folder: "content/disztargyak"
+    create: true
+    slug: "{{slug}}"
     fields:
-      - label: "Termékek"
-        name: "products"
-        widget: "list"
-        fields:
-          - { label: "Termékszám", name: "id", widget: "string" }
-          - { label: "Név", name: "name", widget: "string" }
-          - { label: "Kép", name: "image", widget: "image" }
-
+      - {label: "ID", name: "id", widget: "number", required: true}
+      - {label: "Név", name: "name", widget: "string", required: true}
+      - {label: "Kép", name: "image", widget: "image", required: true}
   - name: "egyeb"
     label: "Egyéb"
-    file: "content/egyeb.json"
+    label_singular: "Egyéb"
+    folder: "content/egyeb"
+    create: true
+    slug: "{{slug}}"
     fields:
-      - label: "Termékek"
-        name: "products"
-        widget: "list"
+      - {label: "ID", name: "id", widget: "number", required: true}
+      - {label: "Név", name: "name", widget: "string", required: true}
+      - {label: "Kép", name: "image", widget: "image", required: true}
+  - name: "home"
+    label: "Főoldal szöveg és slideshow"
+    files:
+      - label: "Főoldal"
+        name: "home"
+        file: "content/home.json"
         fields:
-          - { label: "Termékszám", name: "id", widget: "string" }
-          - { label: "Név", name: "name", widget: "string" }
-          - { label: "Kép", name: "image", widget: "image" }
+          - {label: "Bevezető szöveg", name: "text", widget: "text"}
+          - label: "Slideshow képei"
+            name: "slides"
+            widget: "list"
+            field: {label: "Kép", name: "slide", widget: "image"}
+  - name: "kapcsolat"
+    label: "Kapcsolat"
+    files:
+      - label: "Kapcsolat szöveg"
+        name: "kapcsolat"
+        file: "content/kapcsolat.json"
+        fields:
+          - {label: "Szöveg", name: "text", widget: "text"}
