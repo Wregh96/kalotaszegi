@@ -5,49 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kalotaszegi Régiségek</title>
 <style>
-  /* --- Reset és alapok --- */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  /* Reset */
+  * { box-sizing: border-box; margin:0; padding:0; }
   body {
-    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f9f6f0; color: #4b3b2b;
-    display: flex; flex-direction: column; min-height: 100vh;
+    font-family: Georgia, serif;
+    background-color: #f5f0e6;
+    color: #4b3b2b;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-
-  /* --- Fejléc --- */
   header {
-    background: #8b5e3c;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.9rem;
+    background-color: #8b5e3c;
+    color: white;
     text-align: center;
-    padding: 1rem 0.5rem;
-    user-select: none;
-    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-    letter-spacing: 0.04em;
+    font-weight: bold;
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    user-select:none;
   }
-
-  /* --- Navigáció --- */
   nav {
+    background-color: #d2b48c;
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    background: #d2b48c;
-    padding: 0.5rem 1rem;
-    user-select: none;
     flex-wrap: wrap;
   }
   nav button {
-    background: transparent;
+    background: none;
     border: none;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: bold;
     color: #3c2a10;
-    padding: 0.4rem 0.9rem;
-    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
     cursor: pointer;
-    transition: background-color 0.25s, color 0.25s;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1rem;
   }
   nav button:hover {
     background-color: #8b5e3c;
@@ -58,8 +49,6 @@
     color: white;
     cursor: default;
   }
-
-  /* --- Main tartalom --- */
   main {
     flex-grow: 1;
     max-width: 1100px;
@@ -67,46 +56,42 @@
     padding: 0 1rem;
     width: 100%;
   }
-
-  /* --- Szekciók --- */
   section {
     display: none;
-    animation: fadeIn 0.35s ease forwards;
   }
   section.active {
     display: block;
+    animation: fadein 0.4s ease;
   }
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  @keyframes fadein {
+    from {opacity:0;}
+    to {opacity:1;}
   }
-
-  /* --- Főoldal: bemutatkozás --- */
-  #fooldal .intro-text {
+  /* Főoldal */
+  #fooldal .intro {
     max-width: 720px;
-    margin: 1rem auto 2rem;
-    font-size: 1.3rem;
-    line-height: 1.5;
+    margin: 1rem auto 2rem auto;
+    font-size: 1.25rem;
+    line-height: 1.6;
     text-align: center;
-    font-family: Georgia, serif;
   }
-
-  /* --- Slideshow --- */
   #fooldal .slideshow {
-    position: relative;
     max-width: 720px;
-    height: 360px;
+    height: 350px;
     margin: 0 auto;
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
     background: #fff8f0;
     border: 2px solid #8b5e3c;
     box-shadow: 0 4px 8px rgb(139 94 60 / 0.3);
   }
   #fooldal .slideshow img {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    position: absolute;
+    top:0; left:0;
     opacity: 0;
     transition: opacity 0.8s ease;
   }
@@ -115,32 +100,30 @@
     position: relative;
   }
   #fooldal .slide-nav {
+    margin-top: 0.6rem;
     text-align: center;
-    margin-top: 0.5rem;
   }
   #fooldal .slide-nav button {
     background: #d2b48c;
     border: none;
+    border-radius: 50%;
     width: 20px;
     height: 20px;
-    border-radius: 50%;
     margin: 0 5px;
-    cursor: pointer;
     opacity: 0.6;
-    transition: opacity 0.3s, background-color 0.3s;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
   }
   #fooldal .slide-nav button.active {
-    opacity: 1;
     background-color: #8b5e3c;
+    opacity: 1;
   }
-
-  /* --- Termék galériák --- */
+  /* Termék galériák */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
     gap: 1rem;
     justify-items: center;
-    margin-top: 1rem;
   }
   .product-item {
     background: #fff8f0;
@@ -152,17 +135,17 @@
     text-align: center;
     box-shadow: 0 0 6px #8b5e3c55;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
+    user-select:none;
   }
   .product-item:hover {
-    transform: scale(1.06);
+    transform: scale(1.05);
     box-shadow: 0 0 14px #8b5e3caa;
   }
   .product-item img {
     max-width: 130px;
     max-height: 130px;
-    border-radius: 5px;
     object-fit: contain;
+    border-radius: 5px;
     border: 1.5px solid #d2b48c;
   }
   .product-item .code {
@@ -171,14 +154,13 @@
     margin-top: 0.4rem;
   }
   .product-item .name {
-    margin-top: 0.25rem;
+    margin-top: 0.3rem;
     font-size: 1rem;
     color: #3c2a10;
     font-family: Georgia, serif;
     word-wrap: break-word;
   }
-
-  /* --- Modal kinagyítás --- */
+  /* Modal kinagyítás */
   #modalOverlay {
     position: fixed;
     inset: 0;
@@ -187,7 +169,7 @@
     justify-content: center;
     align-items: center;
     cursor: zoom-out;
-    z-index: 10000;
+    z-index: 9999;
   }
   #modalOverlay img {
     max-width: 90vw;
@@ -195,19 +177,16 @@
     border-radius: 12px;
     box-shadow: 0 0 20px white;
   }
-
-  /* --- Admin felület --- */
+  /* Admin felület */
   #admin {
     max-width: 700px;
-    margin: 0 auto;
+    margin: 2rem auto;
     background: #fff8f0;
     border: 2px solid #8b5e3c;
     border-radius: 12px;
     padding: 1.5rem 2rem;
     box-sizing: border-box;
-    user-select: none;
-    font-family: Georgia, serif;
-    color: #4b3b2b;
+    user-select:none;
   }
   #admin h2, #admin h3 {
     color: #5a3e10;
@@ -248,8 +227,6 @@
     background-color: #d2b48c;
     cursor: not-allowed;
   }
-
-  /* Login szekció */
   #loginSection {
     max-width: 360px;
     margin: 3rem auto 4rem;
@@ -261,9 +238,8 @@
   #loginSection button {
     width: 100%;
   }
-
-  /* Reszponzív */
-  @media (max-width: 720px) {
+  /* Mobilra */
+  @media (max-width:720px) {
     nav {
       gap: 0.5rem;
       justify-content: space-around;
@@ -301,64 +277,59 @@
 </nav>
 
 <main>
-  <section id="fooldal" class="active" tabindex="0" aria-label="Főoldal">
-    <div class="intro-text" contenteditable="false" aria-live="polite" aria-atomic="true">
+  <section id="fooldal" class="active" aria-label="Főoldal">
+    <div class="intro">
       Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.
     </div>
-    <div class="slideshow" aria-label="Főoldali képek" role="region">
-      <!-- Képek betöltve JS-ből -->
+    <div class="slideshow" aria-label="Főoldali képek">
+      <!-- Képek a slideshowhoz -->
     </div>
-    <div class="slide-nav" role="tablist" aria-label="Slideshow vezérlés"></div>
+    <div class="slide-nav" role="tablist" aria-label="Képválasztók"></div>
   </section>
 
-  <section id="butorok" tabindex="0" aria-label="Bútorok termékek">
+  <section id="butorok" aria-label="Bútorok">
     <h2>Bútorok</h2>
     <div class="product-grid" id="butorok-lista" aria-live="polite" aria-relevant="additions"></div>
   </section>
 
-  <section id="ruhak" tabindex="0" aria-label="Ruhák termékek">
+  <section id="ruhak" aria-label="Ruhák">
     <h2>Ruhák</h2>
     <div class="product-grid" id="ruhak-lista" aria-live="polite" aria-relevant="additions"></div>
   </section>
 
-  <section id="disztargyak" tabindex="0" aria-label="Dísztárgyak termékek">
+  <section id="disztargyak" aria-label="Dísztárgyak">
     <h2>Dísztárgyak</h2>
     <div class="product-grid" id="disztargyak-lista" aria-live="polite" aria-relevant="additions"></div>
   </section>
 
-  <section id="egyeb" tabindex="0" aria-label="Egyéb termékek">
+  <section id="egyeb" aria-label="Egyéb">
     <h2>Egyéb</h2>
     <div class="product-grid" id="egyeb-lista" aria-live="polite" aria-relevant="additions"></div>
   </section>
 
-  <section id="admin" aria-label="Admin felület" tabindex="0" style="display:none;">
-
-    <div id="loginSection" role="form" aria-label="Admin bejelentkezés">
+  <section id="admin" aria-label="Admin felület" style="display:none;">
+    <div id="loginSection">
       <h2>Admin bejelentkezés</h2>
       <input type="password" id="adminPass" placeholder="Admin jelszó" autocomplete="off" aria-required="true" />
       <button id="loginBtn" aria-label="Belépés az admin felületre">Belépés</button>
-      <p id="loginHint" style="color:#5a3e10; font-size:0.9rem;">Kérlek add meg az admin jelszót.</p>
+      <p style="color:#5a3e10; font-size:0.9rem;">Kérlek add meg az admin jelszót.</p>
     </div>
-
     <div id="adminPanel" style="display:none;" aria-hidden="true">
-
       <h2>Admin szerkesztő</h2>
-
-      <section aria-label="Főoldali bemutatkozó szerkesztése" style="margin-bottom:2rem;">
+      <section style="margin-bottom:2rem;">
         <h3>Főoldali bemutatkozó szöveg</h3>
         <textarea id="introText" rows="4" aria-label="Bemutatkozó szöveg szerkesztése"></textarea>
         <button id="saveIntroBtn">Mentés</button>
       </section>
 
-      <section aria-label="Főoldali képek kezelése" style="margin-bottom:2rem;">
+      <section style="margin-bottom:2rem;">
         <h3>Főoldali képek (slideshow)</h3>
-        <input type="file" id="mainImagesUpload" accept="image/*" multiple aria-describedby="uploadHint" />
+        <input type="file" id="mainImagesUpload" accept="image/*" multiple />
         <button id="uploadMainImagesBtn">Feltölt és hozzáad</button>
-        <p id="uploadHint" style="color:#5a3e10; font-size:0.9rem;">Több kép feltöltése is lehetséges.</p>
         <div id="mainImagesPreview" style="margin-top:1rem; display:flex; flex-wrap: wrap; gap:10px;"></div>
       </section>
 
-      <section aria-label="Termék hozzáadása">
+      <section>
         <h3>Új termék hozzáadása</h3>
         <label for="categorySelect">Kategória:</label>
         <select id="categorySelect" aria-required="true">
@@ -368,59 +339,91 @@
           <option value="disztargyak">Dísztárgyak</option>
           <option value="egyeb">Egyéb</option>
         </select>
-
         <label for="productNameInput">Termék neve:</label>
         <input type="text" id="productNameInput" placeholder="Termék neve" aria-required="true" />
-
         <label for="productImageInput">Termék képe:</label>
         <input type="file" id="productImageInput" accept="image/*" aria-required="true" />
-
         <button id="addProductBtn">Termék hozzáadása</button>
       </section>
-
     </div>
   </section>
-
 </main>
 
 <footer style="text-align:center; padding:1rem; background:#8b5e3c; color:#fff; user-select:none;">
   &copy; 2025 Kalotaszegi Régiségek
 </footer>
 
-<!-- Modal kinagyításhoz -->
 <div id="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
   <img src="" alt="Kinagyított kép" />
 </div>
 
 <script>
-  // Változók, DOM elemek
+  // NAVIGÁCIÓ
   const navButtons = document.querySelectorAll('nav button.nav-btn');
   const sections = document.querySelectorAll('main section');
-  const modalOverlay = document.getElementById('modalOverlay');
-  const modalImg = modalOverlay.querySelector('img');
 
-  // Admin elemek
-  const loginSection = document.getElementById('loginSection');
-  const adminPanel = document.getElementById('adminPanel');
-  const adminPassInput = document.getElementById('adminPass');
-  const loginBtn = document.getElementById('loginBtn');
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active')) return;
+      navButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.getAttribute('data-target');
+      sections.forEach(sec => {
+        if (sec.id === target) {
+          sec.classList.add('active');
+          sec.style.display = 'block';
+        } else {
+          sec.classList.remove('active');
+          sec.style.display = 'none';
+        }
+      });
+    });
+  });
 
-  // Slideshow
+  // FŐOLDALI SLIDESHOW
   const slideshowContainer = document.querySelector('#fooldal .slideshow');
   const slideNavContainer = document.querySelector('#fooldal .slide-nav');
-  const introTextDiv = document.querySelector('#fooldal .intro-text');
 
-  // Terméklisták
-  const productLists = {
-    butorok: document.getElementById('butorok-lista'),
-    ruhak: document.getElementById('ruhak-lista'),
-    disztargyak: document.getElementById('disztargyak-lista'),
-    egyeb: document.getElementById('egyeb-lista'),
+  let slides = [];
+  let currentSlide = 0;
+
+  // Példa képek (ezeket később az admin tölti fel, ide kezdetnek)
+  slides = [
+    {id:1, url:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=720&q=80"},
+    {id:2, url:"https://images.unsplash.com/photo-1549887537-c56db06c833b?auto=format&fit=crop&w=720&q=80"},
+    {id:3, url:"https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=720&q=80"}
+  ];
+
+  function renderSlideshow() {
+    slideshowContainer.innerHTML = '';
+    slideNavContainer.innerHTML = '';
+    if(slides.length === 0){
+      slideshowContainer.innerHTML = '<p style="padding:1rem; text-align:center; color:#8b5e10;">Nincsenek feltöltött képek</p>';
+      return;
+    }
+    slides.forEach((slide,i) => {
+      const img = document.createElement('img');
+      img.src = slide.url;
+      img.alt = `Főoldali kép ${i+1}`;
+      img.classList.toggle('active', i === currentSlide);
+      slideshowContainer.appendChild(img);
+
+      const btn = document.createElement('button');
+      btn.title = `Kép ${i+1}`;
+      btn.classList.toggle('active', i === currentSlide);
+      btn.addEventListener('click', () => {
+        currentSlide = i;
+        renderSlideshow();
+      });
+      slideNavContainer.appendChild(btn);
+    });
+  }
+  renderSlideshow();
+
+  // Termékek tárolása
+  let products = {
+    butorok: [],
+    ruhak: [],
+    disztargyak: [],
+    egyeb: []
   };
-
-  // Admin form elemek
-  const introTextArea = document.getElementById('introText');
-  const saveIntroBtn = document.getElementById('saveIntroBtn');
-
-  const mainImagesUpload = document.getElementById('mainImagesUpload');
-  const uploadMainImagesBtn = document.getElementById('uploadMainImagesBtn
