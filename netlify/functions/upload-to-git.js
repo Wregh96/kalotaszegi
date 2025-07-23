@@ -1,42 +1,61 @@
-const { writeFileSync, existsSync, mkdirSync } = require('fs');
-const path = require('path');
+const { Octokit } = require("@octokit/rest");
 
-exports.handler = async function(event, context) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
-  }
+exports.handler = async (event) => {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = "kalotaszegi"; // Repo név
+  const owner = "a-te-github-neved"; // GitHub felhasználóneved
+  const path = "uploads/";
+  const octokit = new Octokit({ auth: token });
 
-  try {
-    // Netlify Functions-ban az event.body alapból base64-enkódelt lehet, ha formData-t küldesz, nem lesz egyszerű
-    // Ezért az egyszerűség kedvéért multipart/form-data feldolgozáshoz használj 'busboy' vagy 'formidable' csomagot.
-    // Netlify Functions korlátozása miatt nem telepíthetünk egyszerűen csomagokat.
-    // Így itt egy nagyon egyszerű, "hacky" megoldás csak a fájlnevet és fájl tartalmat várja JSON-ban base64-ben.
-
-    const data = JSON.parse(event.body);
-    const { filename, contentBase64 } = data;
-
-    if (!filename || !contentBase64) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Missing filename or content' }) };
-    }
-
-    // Írd ki a fájlt az uploads mappába
-    const uploadsDir = path.resolve(__dirname, '../../uploads');
-    if (!existsSync(uploadsDir)) {
-      mkdirSync(uploadsDir);
-    }
-
-    const filePath = path.join(uploadsDir, filename);
-    const buffer = Buffer.from(contentBase64, 'base64');
-    writeFileSync(filePath, buffer);
-
+  if (event.httpMethod !== "POST") {
     return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'File uploaded successfully', path: `/uploads/${filename}` }),
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      statusCode: 405,
+      body: JSON.stringify({ error: "Csak POST kérés engedélyezett." })
     };
   }
+
+  const contentType = event.headers['content-type'] || '';
+  if (!contentType.includes('multipart/form-data')) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: 'Hibás tartalomtípus.' })
+    };
+  }
+
+  const busboy = require('busboy');
+  const bb = busboy({ headers: event.headers });
+
+  return new Promise((resolve, reject) => {
+    let uploadFile;
+
+    bb.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      const chunks = [];
+      file.on('data', data => chunks.push(data));
+      file.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        const base64Content = buffer.toString('base64');
+
+        octokit.repos.createOrUpdateFileContents({
+          owner,
+          repo,
+          path: path + filename,
+          message: `Kép feltöltése: ${filename}`,
+          content: base64Content
+        }).then(() => {
+          resolve({
+            statusCode: 200,
+            body: JSON.stringify({ path: `${path}${filename}` })
+          });
+        }).catch(err => {
+          resolve({
+            statusCode: 500,
+            body: JSON.stringify({ error: err.message })
+          });
+        });
+      });
+    });
+
+    bb.on('error', error => reject({ statusCode: 500, body: error.message }));
+    bb.end(Buffer.from(event.body, 'base64'));
+  });
 };
