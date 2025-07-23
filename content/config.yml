@@ -1,0 +1,29 @@
+backend:
+  name: github
+  repo: Wregh96/kalotaszegi  # a GitHub repód neve
+
+media_folder: "static/uploads" # ide kerülnek a feltöltött képek
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Oldalak"
+    files:
+      - file: "content/home.md"
+        label: "Főoldal"
+        name: "home"
+      - file: "content/butorok.md"
+        label: "Bútorok"
+        name: "butorok"
+      - file: "content/ruhak.md"
+        label: "Ruhák"
+        name: "ruhak"
+      - file: "content/disztargyak.md"
+        label: "Dísztárgyak"
+        name: "disztargyak"
+      - file: "content/egyeb.md"
+        label: "Egyéb"
+        name: "egyeb"
+      - file: "content/kapcsolat.md"
+        label: "Kapcsolat"
+        name: "kapcsolat"
