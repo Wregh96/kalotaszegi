@@ -354,5 +354,38 @@
       await loadProducts("egyeb");
     });
   </script>
+<!-- ... (tartalom változatlan) -->
+    <section id="kapcsolat">
+      <h2>Kapcsolat</h2>
+      <div id="kapcsolatText">
+        <!-- Dinamikusan töltjük be a szöveget -->
+      </div>
+    </section>
+<!-- ... (tartalom változatlan) -->
+  <script>
+    // ... (előző JS változatlan)
+
+    // Kapcsolat szöveg betöltése
+    async function loadKapcsolat() {
+      try {
+        const res = await fetch("content/kapcsolat.json?"+Date.now());
+        const data = await res.json();
+        document.getElementById("kapcsolatText").innerHTML = data.text.replace(/\n/g,"<br>");
+      } catch (e) {
+        document.getElementById("kapcsolatText").innerHTML = `<a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>`;
+      }
+    }
+
+    // Betöltéskor
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadHome();
+      await loadProducts("butorok");
+      await loadProducts("ruhak");
+      await loadProducts("disztargyak");
+      await loadProducts("egyeb");
+      await loadKapcsolat();
+    });
+  </script>
+<!-- ... (tartalom változatlan) -->
 </body>
 </html>
