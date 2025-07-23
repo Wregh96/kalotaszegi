@@ -1,5 +1,5 @@
 <section id="butorok">
-  <h2>Bútorok</h2>
+  <h2>butorokk</h2>
   <div class="product">
     <p>#101</p>
     <a href="images/butorok/butor1_large.jpg" target="_blank">
