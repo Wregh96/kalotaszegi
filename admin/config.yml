@@ -1,0 +1,66 @@
+backend:
+  name: github
+  repo: Wregh96/kalotaszegi
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "home"
+    label: "Főoldal"
+    files:
+      - file: "content/home.json"
+        label: "Főoldal és slideshow"
+        name: "home"
+        fields:
+          - { label: "Főoldali szöveg", name: "text", widget: "text" }
+          - { label: "Slideshow képek", name: "slides", widget: "list", field: { label: "Kép", name: "slide", widget: "image" } }
+
+  - name: "butorok"
+    label: "Bútorok"
+    file: "content/butorok.json"
+    fields:
+      - label: "Termékek"
+        name: "products"
+        widget: "list"
+        fields:
+          - { label: "Termékszám", name: "id", widget: "string" }
+          - { label: "Név", name: "name", widget: "string" }
+          - { label: "Kép", name: "image", widget: "image" }
+
+  - name: "ruhak"
+    label: "Ruhák"
+    file: "content/ruhak.json"
+    fields:
+      - label: "Termékek"
+        name: "products"
+        widget: "list"
+        fields:
+          - { label: "Termékszám", name: "id", widget: "string" }
+          - { label: "Név", name: "name", widget: "string" }
+          - { label: "Kép", name: "image", widget: "image" }
+
+  - name: "disztargyak"
+    label: "Dísztárgyak"
+    file: "content/disztargyak.json"
+    fields:
+      - label: "Termékek"
+        name: "products"
+        widget: "list"
+        fields:
+          - { label: "Termékszám", name: "id", widget: "string" }
+          - { label: "Név", name: "name", widget: "string" }
+          - { label: "Kép", name: "image", widget: "image" }
+
+  - name: "egyeb"
+    label: "Egyéb"
+    file: "content/egyeb.json"
+    fields:
+      - label: "Termékek"
+        name: "products"
+        widget: "list"
+        fields:
+          - { label: "Termékszám", name: "id", widget: "string" }
+          - { label: "Név", name: "name", widget: "string" }
+          - { label: "Kép", name: "image", widget: "image" }
