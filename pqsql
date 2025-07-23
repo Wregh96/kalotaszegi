@@ -1,0 +1,8 @@
+/kalotaszegi-regisegek
+├── /netlify
+│   └── /functions
+│       └── upload-to-git.js
+├── /public
+│   └── index.html
+├── package.json
+└── netlify.toml
