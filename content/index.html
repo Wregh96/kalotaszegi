@@ -1,77 +1,21 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kalotaszegi Régiségek</title>
   <style>
-    body {
-      font-family: Georgia, serif;
-      background-color: #f5f0e6;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #8b5e3c;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #d2b48c;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .gallery {
-      display: flex;
-      overflow: hidden;
-      max-width: 100%;
-      height: 300px;
-      position: relative;
-    }
-    .gallery img {
-      width: 100%;
-      object-fit: cover;
-    }
-    main {
-      padding: 20px;
-    }
-    .search-bar {
-      margin-bottom: 20px;
-    }
-    .product {
-      border: 1px solid #aaa;
-      padding: 10px;
-      margin: 10px 0;
-      background: #fff;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: #8b5e3c;
-      color: white;
-    }
-    section {
-      display: none;
-    }
-    section.active {
-      display: block;
-    }
+    body { font-family: Georgia, serif; background: #f5f0e6; margin:0; padding:0; }
+    header { background: #8b5e3c; color: white; padding: 20px; text-align: center; }
+    nav { background: #d2b48c; display: flex; justify-content: center; gap: 20px; padding: 10px; }
+    nav a { cursor: pointer; text-decoration: none; font-weight: bold; color: black; }
+    main { padding: 20px; }
+    section { display: none; }
+    section.active { display: block; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Kalotaszegi Régiségek</h1>
-  </header>
-
+  <header><h1>Kalotaszegi Régiségek</h1></header>
   <nav>
     <a onclick="showSection('fooldal')">Főoldal</a>
     <a onclick="showSection('butorok')">Bútorok</a>
@@ -80,67 +24,37 @@
     <a onclick="showSection('egyeb')">Egyéb</a>
     <a onclick="showSection('kapcsolat')">Kapcsolat</a>
   </nav>
-
   <main>
     <section id="fooldal" class="active">
-      <div class="gallery">
-        <img src="slide1.jpg" alt="Kép 1">
-        <!-- További képek JavaScript segítségével cserélhetők -->
-      </div>
       <p>Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.</p>
     </section>
-
     <section id="butorok">
-      <div class="search-bar">
-        <label for="search">Termékszám keresés: </label>
-        <input type="text" id="search" placeholder="Pl.: 102">
-      </div>
       <h2>Bútorok</h2>
-      <div class="product">#101 - Faragott szék</div>
-      <div class="product">#102 - Tölgyfa komód</div>
+      <div>#101 - Faragott szék</div>
+      <div>#102 - Tölgyfa komód</div>
     </section>
-
     <section id="ruhak">
       <h2>Ruhák</h2>
-      <div class="product">#201 - Hímzett mellény</div>
-      <div class="product">#202 - Népi szoknya</div>
+      <div>#201 - Hímzett mellény</div>
+      <div>#202 - Népi szoknya</div>
     </section>
-
     <section id="disztargyak">
       <h2>Dísztárgyak</h2>
-      <div class="product">#301 - Kézzel festett tányér</div>
+      <div>#301 - Kézzel festett tányér</div>
     </section>
-
     <section id="egyeb">
       <h2>Egyéb</h2>
-      <div class="product">#401 - Fonott kosár</div>
+      <div>#401 - Fonott kosár</div>
     </section>
-
     <section id="kapcsolat">
       <h2>Kapcsolat</h2>
-      <p>Érdeklődés esetén kérjük írjon: <a href="mailto:info@kalotaszegiregiségek.hu">info@kalotaszegiregiségek.hu</a></p>
+      <p>Írj nekünk: <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a></p>
     </section>
   </main>
 
-  <footer>
-    &copy; 2025 Kalotaszegi Régiségek
-  </footer>
-
   <script>
-    // Szűrés termékszám alapján csak bútoroknál
-    document.getElementById('search')?.addEventListener('input', function() {
-      const value = this.value.trim();
-      const products = document.querySelectorAll('#butorok .product');
-      products.forEach(p => {
-        p.style.display = p.textContent.includes(value) ? 'block' : 'none';
-      });
-    });
-
-    // Menü váltás
     function showSection(id) {
-      document.querySelectorAll('main section').forEach(sec => {
-        sec.classList.remove('active');
-      });
+      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
   </script>
