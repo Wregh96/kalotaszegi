@@ -1,61 +1,31 @@
-const { Octokit } = require("@octokit/rest");
+const { Octokit } = require("@octokit/core");
 
-exports.handler = async (event) => {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = "kalotaszegi"; // Repo név
-  const owner = "a-te-github-neved"; // GitHub felhasználóneved
-  const path = "uploads/";
+exports.handler = async function(event) {
+  const token = 'nfp_48CzP3YQaLp7LUFcDoBuaqzvtSnzsyLx7415'; // már beállítottad
+  const siteID = '54aa93cb-eaf6-49b2-8852-cc0717597fc1';
   const octokit = new Octokit({ auth: token });
 
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: "Csak POST kérés engedélyezett." })
-    };
-  }
+  const body = JSON.parse(event.body);
+  const path = body.path || 'uploads/' + body.fileName;
+  const content = body.content;
 
-  const contentType = event.headers['content-type'] || '';
-  if (!contentType.includes('multipart/form-data')) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'Hibás tartalomtípus.' })
-    };
-  }
-
-  const busboy = require('busboy');
-  const bb = busboy({ headers: event.headers });
-
-  return new Promise((resolve, reject) => {
-    let uploadFile;
-
-    bb.on('file', (fieldname, file, filename, encoding, mimetype) => {
-      const chunks = [];
-      file.on('data', data => chunks.push(data));
-      file.on('end', () => {
-        const buffer = Buffer.concat(chunks);
-        const base64Content = buffer.toString('base64');
-
-        octokit.repos.createOrUpdateFileContents({
-          owner,
-          repo,
-          path: path + filename,
-          message: `Kép feltöltése: ${filename}`,
-          content: base64Content
-        }).then(() => {
-          resolve({
-            statusCode: 200,
-            body: JSON.stringify({ path: `${path}${filename}` })
-          });
-        }).catch(err => {
-          resolve({
-            statusCode: 500,
-            body: JSON.stringify({ error: err.message })
-          });
-        });
-      });
+  try {
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: 'YOUR_GITHUB_USERNAME',
+      repo: 'YOUR_REPO_NAME',
+      path: path,
+      message: `Upload ${body.fileName}`,
+      content: content
     });
 
-    bb.on('error', error => reject({ statusCode: 500, body: error.message }));
-    bb.end(Buffer.from(event.body, 'base64'));
-  });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ path: path })
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message })
+    };
+  }
 };
