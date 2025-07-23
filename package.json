@@ -1,0 +1,7 @@
+{
+  "name": "kalotaszegi-regisegek",
+  "version": "1.0.0",
+  "dependencies": {
+    "@octokit/core": "^4.7.0"
+  }
+}
