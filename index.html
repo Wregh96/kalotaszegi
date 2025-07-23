@@ -292,6 +292,70 @@
     }
   </style>
 </head>
+  <script>
+    // ---- Navigáció és oldalváltás ----
+    const navButtons = document.querySelectorAll('nav button');
+    const sections = document.querySelectorAll('main section');
+    const pageIds = Array.from(sections).map(s => s.id);
+    let currentPageIndex = 0;
+
+    function switchToPage(index) {
+      if (index < 0) index = pageIds.length - 1;
+      if (index >= pageIds.length) index = 0;
+      currentPageIndex = index;
+
+      sections.forEach((section) => {
+        section.classList.toggle('active', section.id === pageIds[currentPageIndex]);
+      });
+      navButtons.forEach((btn) => {
+        const isActive = btn.getAttribute('data-target') === pageIds[currentPageIndex];
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-current', isActive ? 'page' : 'false');
+      });
+
+      sections[currentPageIndex].focus();
+    }
+
+    navButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        const idx = pageIds.indexOf(target);
+        if (idx !== -1) {
+          switchToPage(idx);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') switchToPage(currentPageIndex - 1);
+      else if (e.key === 'ArrowRight') switchToPage(currentPageIndex + 1);
+    });
+
+    // Fókusz kezeléshez minden section tabindex-szel van ellátva
+
+    // Galéria vezérlés
+    const images = ['slide1.jpg', 'slide2.jpg', 'slide3.jpg']; // Használd saját képeidet itt
+    let slideIndex = 0;
+    const mainImage = document.getElementById('mainImage');
+    const nextBtn = document.getElementById('nextSlide');
+    const prevBtn = document.getElementById('prevSlide');
+
+    function showSlide(index) {
+      if (index < 0) index = images.length - 1;
+      if (index >= images.length) index = 0;
+      slideIndex = index;
+      mainImage.src = images[slideIndex];
+    }
+
+    nextBtn?.addEventListener('click', () => showSlide(slideIndex + 1));
+    prevBtn?.addEventListener('click', () => showSlide(slideIndex - 1));
+    showSlide(0); // indulásnál első kép
+
+    // Induláskor mutassa a főoldalt
+    switchToPage(0);
+  </script>
+</body>
+</html>
 <body>
   <header>
     Kalotaszegi Régiségek
