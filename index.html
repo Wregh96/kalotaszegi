@@ -10,13 +10,13 @@
   <header>
     <h1>Kalotaszegi Régiségek</h1>
   </header>
-  <nav>
-    <a class="active" onclick="showSection('fooldal', this)">Főoldal</a>
-    <a onclick="showSection('butorok', this)">Bútorok</a>
-    <a onclick="showSection('ruhak', this)">Ruhák</a>
-    <a onclick="showSection('disztargyak', this)">Dísztárgyak</a>
-    <a onclick="showSection('egyeb', this)">Egyéb</a>
-    <a onclick="showSection('kapcsolat', this)">Kapcsolat</a>
+  <nav id="mainNav">
+    <a class="active" data-section="fooldal">Főoldal</a>
+    <a data-section="butorok">Bútorok</a>
+    <a data-section="ruhak">Ruhák</a>
+    <a data-section="disztargyak">Dísztárgyak</a>
+    <a data-section="egyeb">Egyéb</a>
+    <a data-section="kapcsolat">Kapcsolat</a>
     <a href="/admin/" target="_blank">Admin</a>
   </nav>
   <main>
@@ -62,14 +62,21 @@
     &copy; 2025 Kalotaszegi Régiségek – Minden jog fenntartva.
   </footer>
   <script>
-    // Navigáció
-    function showSection(id, el) {
-      document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      if (el) el.classList.add('active');
-      if (window.scrollY > 100) window.scrollTo(0, 0);
-    }
+    // Navigáció – csak az adott szekció látszik
+    document.addEventListener("DOMContentLoaded", function() {
+      const nav = document.getElementById("mainNav");
+      nav.querySelectorAll("a[data-section]").forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          const section = link.getAttribute("data-section");
+          document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
+          document.getElementById(section).classList.add("active");
+          nav.querySelectorAll("a[data-section]").forEach(a => a.classList.remove("active"));
+          link.classList.add("active");
+          if (window.scrollY > 100) window.scrollTo(0, 0);
+        });
+      });
+    });
 
     // Slideshow
     let slides = [];
@@ -99,35 +106,49 @@
 
     // Termékek betöltése
     async function loadProducts(category) {
-      const res = await fetch(`content/${category}.json?${Date.now()}`);
-      const products = await res.json();
-      const grid = document.getElementById(category + "Grid");
-      grid.innerHTML = "";
-      products.forEach(item => {
-        const d = document.createElement("div");
-        d.className = "product";
-        d.innerHTML = `
-          <div class="code">#${item.id}</div>
-          <div class="name">${item.name}</div>
-          <img src="${item.image}" alt="${item.name}" onclick="showLargeImage('${item.image}')" />
-        `;
-        grid.appendChild(d);
-      });
+      try {
+        const res = await fetch(`content/${category}.json?${Date.now()}`);
+        const products = await res.json();
+        const grid = document.getElementById(category + "Grid");
+        grid.innerHTML = "";
+        products.forEach(item => {
+          const d = document.createElement("div");
+          d.className = "product";
+          d.innerHTML = `
+            <div class="code">#${item.id}</div>
+            <div class="name">${item.name}</div>
+            <img src="${item.image}" alt="${item.name}" onclick="showLargeImage('${item.image}')" />
+          `;
+          grid.appendChild(d);
+        });
+      } catch (e) {
+        // ha nincs adat vagy nincs fájl, ne törje el az oldalt
+        const grid = document.getElementById(category + "Grid");
+        grid.innerHTML = `<div style="color:#b00;">Nem található adat ehhez a kategóriához.</div>`;
+      }
     }
 
     // Főoldali szöveg és slideshow betöltése
     async function loadHome() {
-      // Szöveg
-      const res = await fetch("content/home.json?"+Date.now());
-      const data = await res.json();
-      document.getElementById("introText").innerHTML = data.text.replace(/\n/g,"<br>");
-      // Slideshow képek
-      slides = data.slides && data.slides.length ? data.slides : [
-        "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
-        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
-      ];
-      showSlide(0);
+      try {
+        const res = await fetch("content/home.json?"+Date.now());
+        const data = await res.json();
+        document.getElementById("introText").innerHTML = data.text.replace(/\n/g,"<br>");
+        slides = Array.isArray(data.slides) && data.slides.length ? data.slides : [
+          "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
+          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
+          "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
+        ];
+        showSlide(0);
+      } catch(e) {
+        document.getElementById("introText").innerHTML = "Üdvözöljük!";
+        slides = [
+          "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
+          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
+          "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
+        ];
+        showSlide(0);
+      }
     }
 
     // Init
@@ -137,6 +158,11 @@
       await loadProducts("ruhak");
       await loadProducts("disztargyak");
       await loadProducts("egyeb");
+    });
+
+    // Modal gyorsbillentyű (ESC bezár)
+    window.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") hideModal();
     });
   </script>
 </body>
