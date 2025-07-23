@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalotaszegi Régiségek</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background-color: #f5f0e6;
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #8b5e3c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #d2b48c;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #c9a471;
+    }
+    nav a.active {
+      background-color: #8b5e3c;
+      color: white;
+    }
+    main {
+      padding: 20px;
+      min-height: 300px;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    /* Galéria stílus */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      max-width: 100%;
+    }
+    .gallery img {
+      max-width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border: 2px solid #8b5e3c;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+    /* Terméklista */
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .product {
+      border: 1px solid #aaa;
+      padding: 10px;
+      background: white;
+      max-width: 150px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    .product:hover {
+      box-shadow: 0 0 8px #8b5e3c;
+    }
+    .product img {
+      max-width: 100%;
+      height: 100px;
+      object-fit: contain;
+      margin-top: 5px;
+    }
+    /* Mobilra */
+    @media (max-width: 600px) {
+      nav {
+        gap: 8px;
+      }
+      .gallery img, .product {
+        max-width: 45vw;
+        height: auto;
+      }
+      main {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kalotaszegi Régiségek</h1>
+  </header>
+
+  <nav id="menu">
+    <a href="#" data-section="fooldal" class="active">Főoldal</a>
+    <a href="#" data-section="butorok">Bútorok</a>
+    <a href="#" data-section="ruhak">Ruhák</a>
+    <a href="#" data-section="disztargyak">Dísztárgyak</a>
+    <a href="#" data-section="egyeb">Egyéb</a>
+    <a href="#" data-section="kapcsolat">Kapcsolat</a>
+    <a href="#" data-section="admin">Admin</a>
+  </nav>
+
+  <main>
+    <section id="fooldal" class="active">
+      <div class="gallery" id="fooldalGallery">
+        <img src="slide1.jpg" alt="Kép 1" />
+        <img src="slide2.jpg" alt="Kép 2" />
+        <img src="slide3.jpg" alt="Kép 3" />
+      </div>
+      <p>Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.</p>
+    </section>
+
+    <section id="butorok">
+      <h2>Bútorok</h2>
+      <div class="product-list" id="butorLista">
+        <!-- Termékek ide -->
+      </div>
+    </section>
+
+    <section id="ruhak">
+      <h2>Ruhák</h2>
+      <div class="product-list" id="ruhakLista"></div>
+    </section>
+
+    <section id="disztargyak">
+      <h2>Dísztárgyak</h2>
+      <div class="product-list" id="disztargyakLista"></div>
+    </section>
+
+    <section id="egyeb">
+      <h2>Egyéb</h2>
+      <div class="product-list" id="egyebLista"></div>
+    </section>
+
+    <section id="kapcsolat">
+      <h2>Kapcsolat</h2>
+      <p>Érdeklődés esetén kérjük írjon: <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a></p>
+    </section>
+
+    <section id="admin">
+      <div id="loginSection">
+        <h2>Bejelentkezés</h2>
+        <input type="password" id="adminPass" placeholder="Admin jelszó" autocomplete="off" />
+        <button id="loginBtn">Belépés</button>
+      </div>
+
+      <div id="adminPanel" style="display:none;">
+        <h2>Admin szerkesztő</h2>
+        <!-- Admin szerkesztő tartalma ide -->
+        <p>Ide jön a szerkesztő felület...</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Menü linkek kezelése
+    const menu = document.getElementById('menu');
+    const sections = document.querySelectorAll('main section');
+
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+
+        // Menü aktív link
+        menu.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+        e.target.classList.add('active');
+
+        // Szekció váltás
+        const sectionId = e.target.getAttribute('data-section');
+        sections.forEach(sec => {
+          sec.classList.toggle('active', sec.id === sectionId);
+        });
+      }
+    });
+
+    // Admin belépés
+    const ADMIN_PASSWORD = "590678601";
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.addEventListener('click', () => {
+      const passInput = document.getElementById('adminPass').value;
+      if (passInput === ADMIN_PASSWORD) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+      } else {
+        alert('Hibás jelszó!');
+      }
+    });
+
+  </script>
+</body>
+</html>
