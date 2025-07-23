@@ -1,4 +1,3 @@
-// netlify/functions/upload.js
 const fs = require('fs');
 const path = require('path');
 
@@ -6,37 +5,35 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      body: JSON.stringify({ message: 'Method Not Allowed' }),
+      body: 'Method Not Allowed',
     };
   }
 
   const boundary = event.headers['content-type'].split('boundary=')[1];
   const bodyBuffer = Buffer.from(event.body, 'base64');
 
+  // egyszerű MIME parser, csak egy fájlhoz
   const parts = bodyBuffer
     .toString()
     .split(`--${boundary}`)
-    .filter(part => part.includes('Content-Disposition'));
+    .filter(part => part.includes('Content-Disposition') && part.includes('filename='));
 
-  const filePart = parts.find(part => part.includes('filename='));
-  if (!filePart) {
+  if (parts.length === 0) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'No file found in request.' }),
+      body: 'No file uploaded',
     };
   }
 
-  const filenameMatch = filePart.match(/filename="(.+?)"/);
-  const filename = filenameMatch ? filenameMatch[1] : `image-${Date.now()}.jpg`;
+  const match = parts[0].match(/filename="(.+)"/);
+  const filename = match ? match[1] : `image_${Date.now()}.jpg`;
+  const fileContent = parts[0].split('\r\n\r\n')[1].split('\r\n')[0];
+  const filePath = path.join(__dirname, '../../uploads', filename);
 
-  const fileData = filePart.split('\r\n\r\n')[1].split('\r\n')[0];
-  const buffer = Buffer.from(fileData, 'binary');
-
-  const filePath = path.join(__dirname, '..', '..', 'uploads', filename);
-  fs.writeFileSync(filePath, buffer);
+  fs.writeFileSync(filePath, fileContent, 'binary');
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'File uploaded!', filename }),
+    body: JSON.stringify({ message: 'File uploaded successfully', filename }),
   };
 };
