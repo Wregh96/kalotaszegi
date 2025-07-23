@@ -1,132 +1,38 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalotaszegi Régiségek</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalotaszegi Régiségek - Bútorok</title>
   <style>
-    body {
-      font-family: Georgia, serif;
-      background-color: #f5f0e6;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #8b5e3c;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #d2b48c;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-    }
-    .gallery {
-      display: flex;
-      overflow: hidden;
-      max-width: 100%;
-      height: 300px;
-      position: relative;
-    }
-    .gallery img {
-      width: 100%;
-      object-fit: cover;
-    }
-    main {
-      padding: 20px;
-    }
-    .search-bar {
-      margin-bottom: 20px;
-    }
-    .product {
-      border: 1px solid #aaa;
-      padding: 10px;
-      margin: 10px 0;
-      background: #fff;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: #8b5e3c;
-      color: white;
-    }
+    body { font-family: Georgia, serif; background-color: #f5f0e6; margin: 0; padding: 0; }
+    header { background-color: #8b5e3c; color: white; padding: 20px; text-align: center; }
+    nav { background-color: #d2b48c; display: flex; justify-content: center; gap: 20px; padding: 10px; }
+    nav a { text-decoration: none; color: #000; font-weight: bold; }
+    main { max-width: 800px; margin: 20px auto; padding: 0 10px; }
+    .product { border: 1px solid #aaa; background: white; padding: 10px; margin: 10px 0; }
+    footer { text-align: center; padding: 10px; background: #8b5e3c; color: white; margin-top: 40px; }
   </style>
 </head>
 <body>
   <header>
     <h1>Kalotaszegi Régiségek</h1>
   </header>
-
   <nav>
-    <a href="#">Főoldal</a>
-    <a href="#butorok">Bútorok</a>
-    <a href="#ruhak">Ruhák</a>
-    <a href="#disztargyak">Dísztárgyak</a>
-    <a href="#egyeb">Egyéb</a>
-    <a href="#kapcsolat">Kapcsolat</a>
+    <a href="index.html">Főoldal</a>
+    <a href="butorok.html">Bútorok</a>
+    <a href="ruhak.html">Ruhák</a>
+    <a href="disztargyak.html">Dísztárgyak</a>
+    <a href="egyeb.html">Egyéb</a>
+    <a href="kapcsolat.html">Kapcsolat</a>
   </nav>
 
-  <div class="gallery">
-    <img src="slide1.jpg" alt="Kép 1">
-    <!-- További képek JavaScript segítségével cserélhetők -->
-  </div>
-
   <main>
-    <div class="search-bar">
-      <label for="search">Termékszám keresés: </label>
-      <input type="text" id="search" placeholder="Pl.: 102">
-    </div>
-
-    <section id="butorok">
-      <h2>Bútorok</h2>
-      <div class="product">#101 - Faragott szék</div>
-      <div class="product">#102 - Tölgyfa komód</div>
-    </section>
-
-    <section id="ruhak">
-      <h2>Ruhák</h2>
-      <div class="product">#201 - Hímzett mellény</div>
-      <div class="product">#202 - Népi szoknya</div>
-    </section>
-
-    <section id="disztargyak">
-      <h2>Dísztárgyak</h2>
-      <div class="product">#301 - Kézzel festett tányér</div>
-    </section>
-
-    <section id="egyeb">
-      <h2>Egyéb</h2>
-      <div class="product">#401 - Fonott kosár</div>
-    </section>
-
-    <section id="kapcsolat">
-      <h2>Kapcsolat</h2>
-      <p>Érdeklődés esetén kérjük írjon: <a href="mailto:info@kalotaszegiregiségek.hu">info@kalotaszegiregiségek.hu</a></p>
-    </section>
+    <h2>Bútorok</h2>
+    <div class="product">#101 - Faragott szék</div>
+    <div class="product">#102 - Tölgyfa komód</div>
   </main>
 
-  <footer>
-    &copy; 2025 Kalotaszegi Régiségek
-  </footer>
-
-  <script>
-    // Egyszerű keresés termékszám alapján
-    document.getElementById('search').addEventListener('input', function() {
-      const value = this.value.trim();
-      const products = document.querySelectorAll('.product');
-      products.forEach(p => {
-        p.style.display = p.textContent.includes(value) ? 'block' : 'none';
-      });
-    });
-  </script>
+  <footer>&copy; 2025 Kalotaszegi Régiségek</footer>
 </body>
 </html>
-Add index.html
