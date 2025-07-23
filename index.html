@@ -130,7 +130,7 @@
       <h2>Kapcsolat</h2>
       <p>
         Érdeklődés esetén kérjük írjon:
-        <a href="mailto:info@kalotaszegiregiségek.hu">info@kalotaszegiregiségek.hu</a>
+        <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>
       </p>
     </section>
 
@@ -187,7 +187,10 @@
   <footer>&copy; 2025 Kalotaszegi Régiségek</footer>
 
   <script>
-    const NETLIFY_UPLOAD_URL = "https://api.netlify.com/api/v1/sites/YOUR_SITE_ID/media"; 
+    // Ide kell beírni a saját Netlify site ID-d
+    const NETLIFY_SITE_ID = "54aa93cb-eaf6-49b2-8852-cc0717597fc1";
+    const NETLIFY_TOKEN = "nfp_bHLN4Z4PedronoivLkWDuR8Y7PLV5ygR8d8b";
+    const NETLIFY_UPLOAD_URL = `https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/media`;
     const ADMIN_PASSWORD = "590678601";
 
     function showSection(id) {
@@ -226,15 +229,19 @@
           method: "POST",
           body: formData,
           headers: {
-            Authorization: "Bearer YOUR_PERSONAL_ACCESS_TOKEN",
+            Authorization: "Bearer " + NETLIFY_TOKEN,
           },
         });
+        if (!response.ok) throw new Error("Nem sikerült feltölteni.");
         const result = await response.json();
-        const imageURL = result.url || result.sha;
+        const imageURL = result.url || result.secure_url || result.file_url || "";
+        if (!imageURL) throw new Error("Nem érkezett kép URL.");
         document.getElementById("mainImage").src = imageURL;
         localStorage.setItem("mainImage", imageURL);
+        alert("Főoldali kép feltöltve!");
+        imageInput.value = "";
       } catch (error) {
-        alert("Hiba a kép feltöltésénél.");
+        alert("Hiba a kép feltöltésénél: " + error.message);
         console.error(error);
       }
     }
@@ -284,16 +291,17 @@
           method: "POST",
           body: formData,
           headers: {
-            Authorization: "Bearer YOUR_PERSONAL_ACCESS_TOKEN",
+            Authorization: "Bearer " + NETLIFY_TOKEN,
           },
         });
-
+        if (!response.ok) throw new Error("Nem sikerült feltölteni.");
         const result = await response.json();
-        const imageURL = result.url || result.sha;
+        const imageURL = result.url || result.secure_url || result.file_url || "";
+        if (!imageURL) throw new Error("Nem érkezett kép URL.");
         addProduct(category, code, name, imageURL);
         clearInputs(category);
       } catch (error) {
-        alert("Hiba a kép feltöltésénél.");
+        alert("Hiba a kép feltöltésénél: " + error.message);
         console.error(error);
       }
     }
