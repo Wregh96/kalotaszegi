@@ -4,221 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kalotaszegi Régiségek</title>
-  <style>
-    body {
-      font-family: Georgia, serif;
-      background-color: #f5f0e6;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #8b5e3c;
-      color: white;
-      padding: 30px 15px 20px 15px;
-      text-align: center;
-      letter-spacing: 2px;
-    }
-    nav {
-      background-color: #d2b48c;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 14px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 6px 18px;
-      border-radius: 5px;
-      transition: background 0.2s, color 0.2s;
-    }
-    nav a.active {
-      background: #8b5e3c;
-      color: #fff;
-    }
-    main {
-      padding: 30px 10px;
-      min-height: 400px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .slideshow {
-      width: 100%;
-      max-width: 500px;
-      height: 320px;
-      margin: 0 auto 32px auto;
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 5px 32px rgba(90,60,30,0.08);
-      background: #fff3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .slideshow img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: opacity 0.5s;
-    }
-    .slideshow .prevBtn,
-    .slideshow .nextBtn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(139,94,60,0.7);
-      border: none;
-      color: #fff;
-      font-size: 2rem;
-      padding: 0 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 2;
-      opacity: 0.9;
-    }
-    .slideshow .prevBtn { left: 10px; }
-    .slideshow .nextBtn { right: 10px; }
-
-    #introText {
-      font-size: 2rem;
-      font-weight: bold;
-      text-align: center;
-      color: #5a4232;
-      margin: 28px 0 0 0;
-      letter-spacing: 1px;
-      line-height: 1.25;
-      text-shadow: 0 2px 10px #fff8, 0 4px 20px #0002;
-    }
-
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 22px;
-      margin: 18px 0;
-      justify-content: flex-start;
-    }
-    .product {
-      background: #fff;
-      border: 1px solid #d7ccb6;
-      border-radius: 8px;
-      padding: 12px 14px 10px 14px;
-      width: 210px;
-      box-shadow: 0 3px 14px #bbaa9933;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: box-shadow 0.2s;
-    }
-    .product img {
-      max-width: 148px;
-      max-height: 120px;
-      border-radius: 5px;
-      margin: 6px 0 8px 0;
-      border: 1px solid #e2d1c2;
-    }
-    .product .code {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #8b5e3c;
-      letter-spacing: 1px;
-    }
-    .product .name {
-      font-size: 1.05rem;
-      color: #333;
-      margin-bottom: 5px;
-      text-align: center;
-    }
-
-    .search-bar {
-      margin-bottom: 20px;
-    }
-    .search-bar input[type="text"] {
-      font-size: 1rem;
-      padding: 7px 10px;
-      border-radius: 6px;
-      border: 1px solid #bba38b;
-      width: 230px;
-      margin-left: 10px;
-    }
-
-    section { display: none; }
-    section.active { display: block; }
-
-    /* Admin panel */
-    #adminPanel input, #adminPanel textarea, #adminPanel button {
-      margin: 5px 0 10px 0;
-      padding: 8px 11px;
-      border-radius: 6px;
-      border: 1px solid #bba38b;
-      font-size: 1rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    #adminPanel button {
-      background: #8b5e3c;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      width: auto;
-      padding: 8px 26px;
-      margin-top: 6px;
-      margin-bottom: 18px;
-      transition: background 0.2s;
-    }
-    #adminPanel button:hover {
-      background: #6d462c;
-    }
-    #loginSection input {
-      width: 220px;
-    }
-    #loginSection button {
-      padding: 8px 20px;
-      background: #8b5e3c;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-left: 10px;
-      font-size: 1rem;
-    }
-    #adminPanel {
-      max-width: 440px;
-      margin: 0 auto;
-    }
-    .admin-title {
-      text-align: center;
-      margin: 0 0 22px 0;
-      color: #6d462c;
-    }
-
-    footer {
-      text-align: center;
-      padding: 18px;
-      background: #8b5e3c;
-      color: white;
-      letter-spacing: 1px;
-      font-size: 1.02rem;
-      margin-top: 36px;
-    }
-    @media (max-width: 650px) {
-      .product-list { flex-direction: column; align-items: center; }
-      .product { width: 98vw; max-width: 320px; }
-      .slideshow { max-width: 95vw; height: 180px; }
-      main { padding: 10px 3vw; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Kalotaszegi Régiségek</h1>
   </header>
-
   <nav>
     <a class="active" onclick="showSection('fooldal', this)">Főoldal</a>
     <a onclick="showSection('butorok', this)">Bútorok</a>
@@ -226,49 +17,36 @@
     <a onclick="showSection('disztargyak', this)">Dísztárgyak</a>
     <a onclick="showSection('egyeb', this)">Egyéb</a>
     <a onclick="showSection('kapcsolat', this)">Kapcsolat</a>
-    <a onclick="showSection('admin', this)">Admin</a>
+    <a href="/admin/" target="_blank">Admin</a>
   </nav>
-
   <main>
     <!-- Főoldal -->
     <section id="fooldal" class="active">
       <div class="slideshow">
         <button class="prevBtn" onclick="prevSlide()">&#8592;</button>
-        <img id="slideImg" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80" alt="Slideshow kép">
+        <img id="slideImg" src="" alt="Slideshow kép">
         <button class="nextBtn" onclick="nextSlide()">&#8594;</button>
       </div>
-      <div id="introText">Üdvözöljük a Kalotaszegi Régiségek oldalán!<br>Kézműves hagyomány, érték és történelem.</div>
+      <div id="introText"></div>
     </section>
 
-    <!-- Bútorok -->
+    <!-- Kategóriák -->
     <section id="butorok">
-      <div class="search-bar">
-        <label for="searchButor">Termékszám keresés: </label>
-        <input type="text" id="searchButor" placeholder="Pl.: 102" />
-      </div>
       <h2>Bútorok</h2>
-      <div class="product-list" id="butorLista"></div>
+      <div class="product-grid" id="butorokGrid"></div>
     </section>
-
-    <!-- Ruhák -->
     <section id="ruhak">
       <h2>Ruhák</h2>
-      <div class="product-list" id="ruhakLista"></div>
+      <div class="product-grid" id="ruhakGrid"></div>
     </section>
-
-    <!-- Dísztárgyak -->
     <section id="disztargyak">
       <h2>Dísztárgyak</h2>
-      <div class="product-list" id="disztargyakLista"></div>
+      <div class="product-grid" id="disztargyakGrid"></div>
     </section>
-
-    <!-- Egyéb -->
     <section id="egyeb">
       <h2>Egyéb</h2>
-      <div class="product-list" id="egyebLista"></div>
+      <div class="product-grid" id="egyebGrid"></div>
     </section>
-
-    <!-- Kapcsolat -->
     <section id="kapcsolat">
       <h2>Kapcsolat</h2>
       <p>
@@ -276,182 +54,89 @@
         <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>
       </p>
     </section>
-
-    <!-- Admin -->
-    <section id="admin">
-      <div id="loginSection">
-        <h2>Admin bejelentkezés</h2>
-        <input type="password" id="adminPass" placeholder="Jelszó" autocomplete="off" />
-        <button onclick="login()">Belépés</button>
-      </div>
-      <div id="adminPanel" style="display: none">
-        <h3 class="admin-title">Admin szerkesztő</h3>
-
-        <h4>Főoldali szöveg szerkesztése</h4>
-        <textarea id="introEdit" rows="3"></textarea>
-        <button onclick="saveIntro()">Mentés</button>
-
-        <h4>Slideshow képek feltöltése</h4>
-        <input type="file" id="slideUpload" accept="image/*" multiple />
-        <button onclick="uploadSlides()">Kép(ek) hozzáadása</button>
-
-        <h4>Új termék hozzáadása</h4>
-        <select id="catSelect">
-          <option value="butorok">Bútor</option>
-          <option value="ruhak">Ruha</option>
-          <option value="disztargyak">Dísztárgy</option>
-          <option value="egyeb">Egyéb</option>
-        </select>
-        <input type="text" id="productCode" placeholder="Termékszám (pl. #103)" />
-        <input type="text" id="productName" placeholder="Termék neve" />
-        <input type="file" id="productImage" accept="image/*" />
-        <button onclick="addProduct()">Hozzáadás</button>
-      </div>
-    </section>
   </main>
-
+  <div id="modal" class="modal" style="display:none;" onclick="hideModal()">
+    <img id="modalImg" src="" alt="Nagy kép">
+  </div>
   <footer>
     &copy; 2025 Kalotaszegi Régiségek – Minden jog fenntartva.
   </footer>
-
   <script>
-    // --------- Navigáció ---------
+    // Navigáció
     function showSection(id, el) {
       document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
       if (el) el.classList.add('active');
-      if (id === "admin") {
-        document.getElementById("adminPass").focus();
-      }
+      if (window.scrollY > 100) window.scrollTo(0, 0);
     }
 
-    // --------- Főoldal Slide Show ---------
+    // Slideshow
+    let slides = [];
     let slideIdx = 0;
-    let slideImages = JSON.parse(localStorage.getItem("slides") || "[]");
-    if (!slideImages.length) {
-      slideImages = [
+    function showSlide(idx) {
+      if (!slides.length) return;
+      slideIdx = (idx + slides.length) % slides.length;
+      document.getElementById("slideImg").src = slides[slideIdx];
+    }
+    function prevSlide() { showSlide(slideIdx - 1); }
+    function nextSlide() { showSlide(slideIdx + 1); }
+    setInterval(() => {
+      if (document.getElementById("fooldal").classList.contains("active")) nextSlide();
+    }, 6000);
+
+    // Modal nagy kép
+    function showLargeImage(url) {
+      const modal = document.getElementById("modal");
+      const img = document.getElementById("modalImg");
+      img.src = url;
+      modal.style.display = "flex";
+    }
+    function hideModal() {
+      document.getElementById("modal").style.display = "none";
+      document.getElementById("modalImg").src = "";
+    }
+
+    // Termékek betöltése
+    async function loadProducts(category) {
+      const res = await fetch(`content/${category}.json?${Date.now()}`);
+      const products = await res.json();
+      const grid = document.getElementById(category + "Grid");
+      grid.innerHTML = "";
+      products.forEach(item => {
+        const d = document.createElement("div");
+        d.className = "product";
+        d.innerHTML = `
+          <div class="code">#${item.id}</div>
+          <div class="name">${item.name}</div>
+          <img src="${item.image}" alt="${item.name}" onclick="showLargeImage('${item.image}')" />
+        `;
+        grid.appendChild(d);
+      });
+    }
+
+    // Főoldali szöveg és slideshow betöltése
+    async function loadHome() {
+      // Szöveg
+      const res = await fetch("content/home.json?"+Date.now());
+      const data = await res.json();
+      document.getElementById("introText").innerHTML = data.text.replace(/\n/g,"<br>");
+      // Slideshow képek
+      slides = data.slides && data.slides.length ? data.slides : [
         "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
         "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
         "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
       ];
-      localStorage.setItem("slides", JSON.stringify(slideImages));
-    }
-    function showSlide(idx) {
-      if (slideImages.length === 0) return;
-      slideIdx = (idx + slideImages.length) % slideImages.length;
-      document.getElementById("slideImg").src = slideImages[slideIdx];
-    }
-    function prevSlide() { showSlide(slideIdx - 1); }
-    function nextSlide() { showSlide(slideIdx + 1); }
-    setInterval(() => { if (document.getElementById("fooldal").classList.contains("active")) nextSlide(); }, 6500);
-
-    // --------- Termékek kezelése ---------
-    function getProducts(cat) {
-      return JSON.parse(localStorage.getItem(cat + "Items") || "[]");
-    }
-    function saveProducts(cat, arr) {
-      localStorage.setItem(cat + "Items", JSON.stringify(arr));
-    }
-    function renderProducts(cat) {
-      const listId = cat + "Lista";
-      const elem = document.getElementById(listId);
-      elem.innerHTML = "";
-      getProducts(cat).forEach(item => {
-        const d = document.createElement("div");
-        d.className = "product";
-        d.innerHTML = `<div class="code">${item.code}</div>
-          <div class="name">${item.name}</div>
-          ${item.imageURL ? `<img src="${item.imageURL}" alt="${item.name}">` : ""}`;
-        elem.appendChild(d);
-      });
-    }
-    ["butorok","ruhak","disztargyak","egyeb"].forEach(renderProducts);
-
-    // --------- Keresés Bútoroknál ---------
-    document.getElementById("searchButor").addEventListener("input", function() {
-      const value = this.value.trim();
-      const prods = document.querySelectorAll("#butorLista .product");
-      prods.forEach(p => {
-        p.style.display = value === "" || p.textContent.includes(value) ? "" : "none";
-      });
-    });
-
-    // --------- Admin bejelentkezés ---------
-    function login() {
-      const pw = document.getElementById("adminPass").value;
-      if (pw === "590678601") {
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
-        document.getElementById("introEdit").value = document.getElementById("introText").textContent;
-      } else {
-        alert("Hibás jelszó!");
-        document.getElementById("adminPass").value = "";
-      }
-    }
-
-    // --------- Főoldali szöveg szerkesztése ---------
-    function saveIntro() {
-      const txt = document.getElementById("introEdit").value;
-      document.getElementById("introText").innerHTML = txt.replace(/\n/g,"<br>");
-      localStorage.setItem("introText", txt);
-      alert("Mentve!");
-    }
-
-    // --------- Slideshow képek hozzáadása ---------
-    function uploadSlides() {
-      const inp = document.getElementById("slideUpload");
-      const files = inp.files;
-      if (!files.length) return alert("Nem választottál képet!");
-      Array.from(files).forEach(f => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          slideImages.push(e.target.result);
-          localStorage.setItem("slides", JSON.stringify(slideImages));
-        };
-        reader.readAsDataURL(f);
-      });
-      setTimeout(() => { alert("Kép(ek) hozzáadva!"); }, 600);
-    }
-
-    // --------- Új termék hozzáadása ---------
-    function addProduct() {
-      const cat = document.getElementById("catSelect").value;
-      const code = document.getElementById("productCode").value.trim();
-      const name = document.getElementById("productName").value.trim();
-      const imgFile = document.getElementById("productImage").files[0];
-      if (!code || !name) return alert("Töltsd ki a termékszámot és nevet!");
-      if (imgFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const arr = getProducts(cat);
-          arr.push({ code, name, imageURL: e.target.result });
-          saveProducts(cat, arr);
-          renderProducts(cat);
-        };
-        reader.readAsDataURL(imgFile);
-      } else {
-        const arr = getProducts(cat);
-        arr.push({ code, name, imageURL: "" });
-        saveProducts(cat, arr);
-        renderProducts(cat);
-      }
-      document.getElementById("productCode").value = "";
-      document.getElementById("productName").value = "";
-      document.getElementById("productImage").value = "";
-      alert("Termék hozzáadva!");
-    }
-
-    // --------- Oldal betöltésekor ---------
-    window.addEventListener("DOMContentLoaded", () => {
-      // Slideshow
-      slideImages = JSON.parse(localStorage.getItem("slides") || "[]");
       showSlide(0);
-      // Intro szöveg
-      const intro = localStorage.getItem("introText");
-      if (intro) document.getElementById("introText").innerHTML = intro.replace(/\n/g,"<br>");
-      // Termékek
-      ["butorok","ruhak","disztargyak","egyeb"].forEach(renderProducts);
+    }
+
+    // Init
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadHome();
+      await loadProducts("butorok");
+      await loadProducts("ruhak");
+      await loadProducts("disztargyak");
+      await loadProducts("egyeb");
     });
   </script>
 </body>
