@@ -399,3 +399,109 @@
   function nextSlide() {
     if (mainImages.length <= 1) return;
     const imgs = gallery.querySelectorAll("img");
+<script>
+  // Slideshow váltása
+  function nextSlide() {
+    const imgs = gallery.querySelectorAll("img");
+    if (imgs.length === 0) return;
+
+    imgs[slideIndex].classList.add("hidden");
+    slideIndex = (slideIndex + 1) % imgs.length;
+    imgs[slideIndex].classList.remove("hidden");
+  }
+  setInterval(nextSlide, 4000);
+
+  // Főoldali képek betöltése localStorage-ból
+  const storedMainImages = localStorage.getItem("mainImages");
+  if (storedMainImages) {
+    mainImages = JSON.parse(storedMainImages);
+    renderGallery();
+  }
+
+  // Főoldali kép feltöltés
+  uploadMainImagesBtn.addEventListener("click", () => {
+    const files = mainImageUpload.files;
+    if (!files.length) return alert("Nincs kiválasztva kép.");
+
+    for (let file of files) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        mainImages.push(e.target.result);
+        localStorage.setItem("mainImages", JSON.stringify(mainImages));
+        renderGallery();
+      };
+      reader.readAsDataURL(file);
+    }
+    alert("Képek feltöltve!");
+    mainImageUpload.value = "";
+  });
+
+  // Termék hozzáadása
+  addProductBtn.addEventListener("click", () => {
+    const cat = categorySelect.value;
+    const code = productCodeInput.value.trim();
+    const name = productNameInput.value.trim();
+    const file = productImageInput.files[0];
+
+    if (!code || !name || !file) return alert("Tölts ki minden mezőt!");
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const newProduct = { code, name, image: e.target.result };
+      products[cat].push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+      renderProducts();
+      alert("Termék hozzáadva!");
+    };
+    reader.readAsDataURL(file);
+
+    // Tisztítás
+    productCodeInput.value = "";
+    productNameInput.value = "";
+    productImageInput.value = "";
+  });
+
+  // Termék megjelenítés
+  function renderProducts() {
+    for (let cat in products) {
+      const container = document.getElementById(`${cat}Lista`);
+      container.innerHTML = "";
+      products[cat].forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <div class="code">${p.code}</div>
+          <img src="${p.image}" alt="${p.name}" tabindex="0" />
+        `;
+        div.querySelector("img").addEventListener("click", () => {
+          modal.style.display = "flex";
+          modalImg.src = p.image;
+          modalImg.alt = p.name;
+        });
+        container.appendChild(div);
+      });
+    }
+  }
+
+  // Termékek betöltése
+  const storedProducts = localStorage.getItem("products");
+  if (storedProducts) {
+    products = JSON.parse(storedProducts);
+    renderProducts();
+  }
+
+  // Modal zárás
+  modalCloseBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // Mentett bemutatkozó szöveg betöltése
+  const savedIntro = localStorage.getItem("introText");
+  if (savedIntro) introText.textContent = savedIntro;
+
+</script>
+</body>
+</html>
