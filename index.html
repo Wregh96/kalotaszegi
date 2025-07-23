@@ -70,7 +70,7 @@
     section.active {
       display: block;
     }
-    textarea, input[type="text"], input[type="file"] {
+    textarea, input[type="text"], input[type="file"], input[type="password"] {
       width: 100%;
       margin-bottom: 10px;
     }
@@ -94,7 +94,7 @@
   <main>
     <section id="fooldal" class="active">
       <div class="gallery">
-        <img src="slide1.jpg" alt="Kép 1">
+        <img id="mainImage" src="slide1.jpg" alt="Kép 1">
       </div>
       <p id="intro">Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.</p>
     </section>
@@ -130,17 +130,29 @@
     </section>
 
     <section id="admin">
-      <h2>Admin szerkesztő</h2>
+      <div id="loginSection">
+        <h2>Bejelentkezés</h2>
+        <input type="password" id="adminPass" placeholder="Admin jelszó">
+        <button onclick="login()">Belépés</button>
+      </div>
 
-      <h3>Főoldali szöveg szerkesztése</h3>
-      <textarea id="introText" rows="4"></textarea>
-      <button onclick="saveIntro()">Mentés</button>
+      <div id="adminPanel" style="display:none">
+        <h2>Admin szerkesztő</h2>
 
-      <h3>Új bútor hozzáadása</h3>
-      <input type="text" id="productCode" placeholder="Termékszám (pl. #103)">
-      <input type="text" id="productName" placeholder="Bútor neve">
-      <input type="file" id="productImage">
-      <button onclick="uploadToNetlifyAndAddProduct()">Hozzáadás</button>
+        <h3>Főoldali szöveg szerkesztése</h3>
+        <textarea id="introText" rows="4"></textarea>
+        <button onclick="saveIntro()">Mentés</button>
+
+        <h3>Főoldali kép feltöltése</h3>
+        <input type="file" id="mainImageUpload">
+        <button onclick="uploadMainImage()">Kép feltöltése</button>
+
+        <h3>Új bútor hozzáadása</h3>
+        <input type="text" id="productCode" placeholder="Termékszám (pl. #103)">
+        <input type="text" id="productName" placeholder="Bútor neve">
+        <input type="file" id="productImage">
+        <button onclick="uploadToNetlifyAndAddProduct()">Hozzáadás</button>
+      </div>
     </section>
   </main>
 
@@ -149,15 +161,8 @@
   </footer>
 
   <script>
-    const NETLIFY_UPLOAD_URL = "https://api.netlify.com/api/v1/sites/YOUR_SITE_ID/media"; // Cseréld le saját Netlify site ID-re és engedélyezz Netlify Large Media-t
-
-    document.getElementById('search')?.addEventListener('input', function() {
-      const value = this.value.trim();
-      const products = document.querySelectorAll('#butorLista .product');
-      products.forEach(p => {
-        p.style.display = p.textContent.includes(value) ? 'block' : 'none';
-      });
-    });
+    const NETLIFY_UPLOAD_URL = "https://api.netlify.com/api/v1/sites/YOUR_SITE_ID/media";
+    const ADMIN_PASSWORD = "titkosjelszo";
 
     function showSection(id) {
       document.querySelectorAll('main section').forEach(sec => {
@@ -166,11 +171,46 @@
       document.getElementById(id).classList.add('active');
     }
 
+    function login() {
+      const pw = document.getElementById('adminPass').value;
+      if (pw === ADMIN_PASSWORD) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+      } else {
+        alert('Hibás jelszó!');
+      }
+    }
+
     function saveIntro() {
       const newText = document.getElementById('introText').value;
       document.getElementById('intro').textContent = newText;
       localStorage.setItem('introText', newText);
       alert('Mentve');
+    }
+
+    async function uploadMainImage() {
+      const imageInput = document.getElementById('mainImageUpload');
+      if (!imageInput.files[0]) return alert("Nem választottál ki képet.");
+
+      const formData = new FormData();
+      formData.append("file", imageInput.files[0]);
+
+      try {
+        const response = await fetch(NETLIFY_UPLOAD_URL, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: "Bearer YOUR_PERSONAL_ACCESS_TOKEN"
+          }
+        });
+        const result = await response.json();
+        const imageURL = result.url || result.sha;
+        document.getElementById("mainImage").src = imageURL;
+        localStorage.setItem("mainImage", imageURL);
+      } catch (error) {
+        alert("Hiba a kép feltöltésénél.");
+        console.error(error);
+      }
     }
 
     async function uploadToNetlifyAndAddProduct() {
@@ -192,13 +232,12 @@
           method: "POST",
           body: formData,
           headers: {
-            Authorization: "Bearer YOUR_PERSONAL_ACCESS_TOKEN" // Cseréld le saját Netlify tokenre
+            Authorization: "Bearer YOUR_PERSONAL_ACCESS_TOKEN"
           }
         });
 
         const result = await response.json();
-        const imageURL = result.url || result.sha; // attól függ, hogyan válaszol az API
-
+        const imageURL = result.url || result.sha;
         addProduct(code, name, imageURL);
       } catch (error) {
         alert("Hiba a kép feltöltésénél.");
@@ -226,6 +265,11 @@
       if (savedIntro) {
         document.getElementById('intro').textContent = savedIntro;
         document.getElementById('introText').value = savedIntro;
+      }
+
+      const savedImage = localStorage.getItem('mainImage');
+      if (savedImage) {
+        document.getElementById('mainImage').src = savedImage;
       }
 
       const savedItems = JSON.parse(localStorage.getItem('butorok') || '[]');
