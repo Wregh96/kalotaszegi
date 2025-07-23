@@ -23,6 +23,7 @@
       justify-content: center;
       gap: 20px;
       padding: 10px;
+      flex-wrap: wrap;
     }
     nav a {
       text-decoration: none;
@@ -43,6 +44,8 @@
     }
     main {
       padding: 20px;
+      max-width: 900px;
+      margin: auto;
     }
     .search-bar {
       margin-bottom: 20px;
@@ -52,17 +55,22 @@
       padding: 10px;
       margin: 10px 0;
       background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
     .product img {
       max-width: 100px;
+      max-height: 80px;
+      object-fit: contain;
       display: block;
-      margin-top: 5px;
     }
     footer {
       text-align: center;
       padding: 10px;
       background: #8b5e3c;
       color: white;
+      margin-top: 40px;
     }
     section {
       display: none;
@@ -76,6 +84,22 @@
     input[type="password"] {
       width: 100%;
       margin-bottom: 10px;
+      padding: 6px 8px;
+      box-sizing: border-box;
+      font-size: 1em;
+    }
+    button {
+      cursor: pointer;
+      background-color: #8b5e3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #7a5231;
     }
   </style>
 </head>
@@ -97,7 +121,7 @@
   <main>
     <section id="fooldal" class="active">
       <div class="gallery">
-        <img id="mainImage" src="slide1.jpg" alt="Kép 1" />
+        <img id="mainImage" src="slide1.jpg" alt="Főoldali kép" />
       </div>
       <p id="intro">Üdvözöljük a Kalotaszegi Régiségek weboldalán! Kézműves hagyomány, érték és történelem.</p>
     </section>
@@ -154,31 +178,31 @@
         <button onclick="saveIntro()">Mentés</button>
 
         <h3>Főoldali kép feltöltése</h3>
-        <input type="file" id="mainImageUpload" />
+        <input type="file" id="mainImageUpload" accept="image/*" />
         <button onclick="uploadMainImage()">Kép feltöltése</button>
 
         <h3>Új bútor hozzáadása</h3>
         <input type="text" id="productCode" placeholder="Termékszám (pl. #103)" />
         <input type="text" id="productName" placeholder="Bútor neve" />
-        <input type="file" id="productImage" />
+        <input type="file" id="productImage" accept="image/*" />
         <button onclick="uploadToNetlifyAndAddProduct('butorok')">Hozzáadás</button>
 
         <h3>Új ruha hozzáadása</h3>
         <input type="text" id="ruhaCode" placeholder="Termékszám (pl. #201)" />
         <input type="text" id="ruhaName" placeholder="Ruha neve" />
-        <input type="file" id="ruhaImage" />
+        <input type="file" id="ruhaImage" accept="image/*" />
         <button onclick="uploadToNetlifyAndAddProduct('ruhak')">Hozzáadás</button>
 
         <h3>Új dísztárgy hozzáadása</h3>
         <input type="text" id="disztargyCode" placeholder="Termékszám (pl. #301)" />
         <input type="text" id="disztargyName" placeholder="Dísztárgy neve" />
-        <input type="file" id="disztargyImage" />
+        <input type="file" id="disztargyImage" accept="image/*" />
         <button onclick="uploadToNetlifyAndAddProduct('disztargyak')">Hozzáadás</button>
 
         <h3>Új egyéb termék hozzáadása</h3>
         <input type="text" id="egyebCode" placeholder="Termékszám (pl. #401)" />
         <input type="text" id="egyebName" placeholder="Termék neve" />
-        <input type="file" id="egyebImage" />
+        <input type="file" id="egyebImage" accept="image/*" />
         <button onclick="uploadToNetlifyAndAddProduct('egyeb')">Hozzáadás</button>
       </div>
     </section>
@@ -187,7 +211,6 @@
   <footer>&copy; 2025 Kalotaszegi Régiségek</footer>
 
   <script>
-    // Ide kell beírni a saját Netlify site ID-d
     const NETLIFY_SITE_ID = "54aa93cb-eaf6-49b2-8852-cc0717597fc1";
     const NETLIFY_TOKEN = "nfp_bHLN4Z4PedronoivLkWDuR8Y7PLV5ygR8d8b";
     const NETLIFY_UPLOAD_URL = `https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/media`;
@@ -205,6 +228,12 @@
       if (pw === ADMIN_PASSWORD) {
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("adminPanel").style.display = "block";
+
+        // Betöltjük az intro szöveget és képet is a szerkesztőbe
+        const savedIntro = localStorage.getItem("introText");
+        if (savedIntro) {
+          document.getElementById("introText").value = savedIntro;
+        }
       } else {
         alert("Hibás jelszó!");
       }
@@ -223,6 +252,7 @@
 
       const formData = new FormData();
       formData.append("file", imageInput.files[0]);
+      formData.append("title", imageInput.files[0].name);
 
       try {
         const response = await fetch(NETLIFY_UPLOAD_URL, {
@@ -232,9 +262,9 @@
             Authorization: "Bearer " + NETLIFY_TOKEN,
           },
         });
-        if (!response.ok) throw new Error("Nem sikerült feltölteni.");
+        if (!response.ok) throw new Error(`Hiba: ${response.status} ${response.statusText}`);
         const result = await response.json();
-        const imageURL = result.url || result.secure_url || result.file_url || "";
+        const imageURL = result.file_url || result.url || "";
         if (!imageURL) throw new Error("Nem érkezett kép URL.");
         document.getElementById("mainImage").src = imageURL;
         localStorage.setItem("mainImage", imageURL);
@@ -285,6 +315,7 @@
 
       const formData = new FormData();
       formData.append("file", imageInput.files[0]);
+      formData.append("title", imageInput.files[0].name);
 
       try {
         const response = await fetch(NETLIFY_UPLOAD_URL, {
@@ -294,9 +325,9 @@
             Authorization: "Bearer " + NETLIFY_TOKEN,
           },
         });
-        if (!response.ok) throw new Error("Nem sikerült feltölteni.");
+        if (!response.ok) throw new Error(`Hiba: ${response.status} ${response.statusText}`);
         const result = await response.json();
-        const imageURL = result.url || result.secure_url || result.file_url || "";
+        const imageURL = result.file_url || result.url || "";
         if (!imageURL) throw new Error("Nem érkezett kép URL.");
         addProduct(category, code, name, imageURL);
         clearInputs(category);
@@ -310,7 +341,7 @@
       const div = document.createElement("div");
       div.className = "product";
       div.innerHTML =
-        `${code} - ${name}` + (imageURL ? `<img src="${imageURL}" alt="${name}">` : "");
+        `<strong>${code}</strong> - ${name}` + (imageURL ? `<img src="${imageURL}" alt="${name}">` : "");
 
       let listId = "";
       switch (category) {
@@ -404,7 +435,7 @@
         const value = this.value.trim();
         const products = document.querySelectorAll("#butorLista .product");
         products.forEach((p) => {
-          p.style.display = p.textContent.includes(value) ? "block" : "none";
+          p.style.display = p.textContent.includes(value) ? "flex" : "none";
         });
       });
     });
