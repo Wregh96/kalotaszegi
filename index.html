@@ -5,6 +5,196 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kalotaszegi Régiségek</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background: #f5f0e6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #8b5e3c;
+      color: #fff;
+      text-align: center;
+      padding: 32px 0 20px 0;
+      letter-spacing: 2px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #d2b48c;
+      gap: 18px;
+      padding: 13px 0;
+      flex-wrap: wrap;
+    }
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 7px 15px;
+      border-radius: 5px;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a.active {
+      background: #8b5e3c;
+      color: #fff;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 26px 10px 32px 10px;
+      min-height: 380px;
+    }
+    section { display: none; }
+    section.active { display: block; }
+
+    /* Slideshow */
+    .slideshow {
+      width: 100%;
+      max-width: 540px;
+      height: 330px;
+      margin: 0 auto 30px auto;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 36px rgba(90,60,30,0.10);
+      background: #fff3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.5s;
+    }
+    .slideshow button.prevBtn,
+    .slideshow button.nextBtn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(139,94,60,0.7);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      padding: 0 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+      opacity: 0.88;
+    }
+    .slideshow .prevBtn { left: 12px; }
+    .slideshow .nextBtn { right: 12px; }
+
+    #introText {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      color: #5a4232;
+      margin: 25px 0 0 0;
+      letter-spacing: 1px;
+      line-height: 1.25;
+      text-shadow: 0 2px 10px #fff8, 0 4px 20px #0002;
+    }
+
+    /* Grid of products */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin: 18px 0 0 0;
+      justify-content: flex-start;
+    }
+    .product {
+      background: #fff;
+      border: 1px solid #e0d3bb;
+      border-radius: 8px;
+      padding: 13px 15px 11px 15px;
+      width: calc(20% - 24px);
+      box-shadow: 0 3px 14px #bbaa9933;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+      cursor: pointer;
+      position: relative;
+      min-width: 180px;
+      transition: box-shadow 0.2s;
+    }
+    .product img {
+      width: 100%;
+      max-width: 170px;
+      max-height: 120px;
+      border-radius: 6px;
+      margin: 6px 0 9px 0;
+      border: 1px solid #e2d1c2;
+      background: #f7f5ed;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 10px #ccc3;
+    }
+    .product img:hover {
+      transform: scale(1.08);
+    }
+    .product .code {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #8b5e3c;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .product .name {
+      font-size: 1.05rem;
+      color: #333;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 5000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal img {
+      max-width: 92vw;
+      max-height: 86vh;
+      border-radius: 16px;
+      box-shadow: 0 0 42px #000c;
+      background: #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      background: #8b5e3c;
+      color: white;
+      letter-spacing: 1px;
+      font-size: 1.02rem;
+      margin-top: 36px;
+    }
+    @media (max-width: 1000px) {
+      .product { width: calc(33% - 24px); }
+      .slideshow { max-width: 98vw; }
+    }
+    @media (max-width: 650px) {
+      .product-grid { flex-direction: column; align-items: center; }
+      .product { width: 98vw; max-width: 340px; }
+      .slideshow { max-width: 98vw; height: 160px; }
+      #introText { font-size: 1.2rem; }
+      main { padding: 10px 5vw; }
+      nav { padding: 6px 0; }
+      nav a { font-size: 0.99rem; padding: 6px 8px;}
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -20,16 +210,14 @@
     <a href="/admin/" target="_blank" rel="noopener">Admin</a>
   </nav>
   <main>
-    <!-- Főoldal -->
     <section id="fooldal" class="active">
       <div class="slideshow">
-        <button class="prevBtn" onclick="prevSlide()">&#8592;</button>
+        <button class="prevBtn" type="button">&#8592;</button>
         <img id="slideImg" src="" alt="Slideshow kép">
-        <button class="nextBtn" onclick="nextSlide()">&#8594;</button>
+        <button class="nextBtn" type="button">&#8594;</button>
       </div>
       <div id="introText"></div>
     </section>
-    <!-- Kategóriák -->
     <section id="butorok">
       <h2>Bútorok</h2>
       <div class="product-grid" id="butorokGrid"></div>
@@ -54,29 +242,30 @@
       </p>
     </section>
   </main>
-  <div id="modal" class="modal" style="display:none;" onclick="hideModal()">
+  <div id="modal" class="modal" onclick="hideModal()">
     <img id="modalImg" src="" alt="Nagy kép">
   </div>
   <footer>
     &copy; 2025 Kalotaszegi Régiségek – Minden jog fenntartva.
   </footer>
   <script>
-    // Navigáció (menüpontok között váltás)
+    // Navigáció kezelése
     document.addEventListener("DOMContentLoaded", function() {
       const nav = document.getElementById("mainNav");
       nav.querySelectorAll("a[data-section]").forEach(link => {
         link.addEventListener("click", function(e) {
           e.preventDefault();
-          // Admin menüpont: sectiont nem vált
           if (link.getAttribute("href") && link.getAttribute("href").startsWith("/admin")) return;
-          const section = link.getAttribute("data-section");
+          const sectionId = link.getAttribute("data-section");
           document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
-          document.getElementById(section).classList.add("active");
+          document.getElementById(sectionId).classList.add("active");
           nav.querySelectorAll("a[data-section]").forEach(a => a.classList.remove("active"));
           link.classList.add("active");
-          if (window.scrollY > 100) window.scrollTo(0, 0);
+          window.scrollTo(0, 0);
         });
       });
+      document.querySelector('.slideshow .prevBtn').onclick = prevSlide;
+      document.querySelector('.slideshow .nextBtn').onclick = nextSlide;
     });
 
     // Slideshow
@@ -104,12 +293,17 @@
       document.getElementById("modal").style.display = "none";
       document.getElementById("modalImg").src = "";
     }
+    window.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") hideModal();
+    });
 
     // Termékek betöltése
     async function loadProducts(category) {
       try {
         const res = await fetch(`content/${category}.json?${Date.now()}`);
-        const products = await res.json();
+        let products = await res.json();
+        // Netlify CMS list widget miatt lehet {"products": [...]} formátum is:
+        if (Array.isArray(products.products)) products = products.products;
         const grid = document.getElementById(category + "Grid");
         grid.innerHTML = "";
         products.forEach(item => {
@@ -123,7 +317,6 @@
           grid.appendChild(d);
         });
       } catch (e) {
-        // ha nincs adat vagy nincs fájl, ne törje el az oldalt
         const grid = document.getElementById(category + "Grid");
         grid.innerHTML = `<div style="color:#b00;">Nem található adat ehhez a kategóriához.</div>`;
       }
@@ -152,18 +345,13 @@
       }
     }
 
-    // Init
+    // Betöltéskor töltsd be a tartalmat
     window.addEventListener("DOMContentLoaded", async () => {
       await loadHome();
       await loadProducts("butorok");
       await loadProducts("ruhak");
       await loadProducts("disztargyak");
       await loadProducts("egyeb");
-    });
-
-    // Modal gyorsbillentyű (ESC bezár)
-    window.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") hideModal();
     });
   </script>
 </body>
