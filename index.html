@@ -213,7 +213,7 @@
     <section id="fooldal" class="active">
       <div class="slideshow">
         <button class="prevBtn" type="button">&#8592;</button>
-        <img id="slideImg" src="" alt="Slideshow kép">
+        <img id="slideImg" src="" alt="Slideshow kép" />
         <button class="nextBtn" type="button">&#8594;</button>
       </div>
       <div id="introText"></div>
@@ -236,14 +236,11 @@
     </section>
     <section id="kapcsolat">
       <h2>Kapcsolat</h2>
-      <p>
-        Érdeklődés esetén írj:<br>
-        <a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>
-      </p>
+      <div id="kapcsolatText"></div>
     </section>
   </main>
   <div id="modal" class="modal" onclick="hideModal()">
-    <img id="modalImg" src="" alt="Nagy kép">
+    <img id="modalImg" src="" alt="Nagy kép" />
   </div>
   <footer>
     &copy; 2025 Kalotaszegi Régiségek – Minden jog fenntartva.
@@ -302,7 +299,6 @@
       try {
         const res = await fetch(`content/${category}.json?${Date.now()}`);
         let products = await res.json();
-        // Netlify CMS list widget miatt lehet {"products": [...]} formátum is:
         if (Array.isArray(products.products)) products = products.products;
         const grid = document.getElementById(category + "Grid");
         grid.innerHTML = "";
@@ -325,16 +321,16 @@
     // Főoldali szöveg és slideshow betöltése
     async function loadHome() {
       try {
-        const res = await fetch("content/home.json?"+Date.now());
+        const res = await fetch("content/home.json?" + Date.now());
         const data = await res.json();
-        document.getElementById("introText").innerHTML = data.text.replace(/\n/g,"<br>");
+        document.getElementById("introText").innerHTML = data.text.replace(/\n/g, "<br>");
         slides = Array.isArray(data.slides) && data.slides.length ? data.slides : [
           "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
           "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
           "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
         ];
         showSlide(0);
-      } catch(e) {
+      } catch (e) {
         document.getElementById("introText").innerHTML = "Üdvözöljük!";
         slides = [
           "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
@@ -345,32 +341,12 @@
       }
     }
 
-    // Betöltéskor töltsd be a tartalmat
-    window.addEventListener("DOMContentLoaded", async () => {
-      await loadHome();
-      await loadProducts("butorok");
-      await loadProducts("ruhak");
-      await loadProducts("disztargyak");
-      await loadProducts("egyeb");
-    });
-  </script>
-<!-- ... (tartalom változatlan) -->
-    <section id="kapcsolat">
-      <h2>Kapcsolat</h2>
-      <div id="kapcsolatText">
-        <!-- Dinamikusan töltjük be a szöveget -->
-      </div>
-    </section>
-<!-- ... (tartalom változatlan) -->
-  <script>
-    // ... (előző JS változatlan)
-
     // Kapcsolat szöveg betöltése
     async function loadKapcsolat() {
       try {
-        const res = await fetch("content/kapcsolat.json?"+Date.now());
+        const res = await fetch("content/kapcsolat.json?" + Date.now());
         const data = await res.json();
-        document.getElementById("kapcsolatText").innerHTML = data.text.replace(/\n/g,"<br>");
+        document.getElementById("kapcsolatText").innerHTML = data.text.replace(/\n/g, "<br>");
       } catch (e) {
         document.getElementById("kapcsolatText").innerHTML = `<a href="mailto:info@kalotaszegiregisegek.hu">info@kalotaszegiregisegek.hu</a>`;
       }
@@ -386,6 +362,5 @@
       await loadKapcsolat();
     });
   </script>
-<!-- ... (tartalom változatlan) -->
 </body>
 </html>
