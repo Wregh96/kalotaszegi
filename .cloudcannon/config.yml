@@ -1,0 +1,88 @@
+collections:
+  butorok:
+    path: content/butorok
+    label: Bútorok
+    create: true
+    editor:
+      preview: false
+    fields:
+      - name: id
+        label: ID
+        type: number
+      - name: name
+        label: Név
+        type: text
+      - name: image
+        label: Kép
+        type: image
+
+  ruhak:
+    path: content/ruhak
+    label: Ruhák
+    create: true
+    editor:
+      preview: false
+    fields:
+      - name: id
+        label: ID
+        type: number
+      - name: name
+        label: Név
+        type: text
+      - name: image
+        label: Kép
+        type: image
+
+  disztargyak:
+    path: content/disztargyak
+    label: Dísztárgyak
+    create: true
+    editor:
+      preview: false
+    fields:
+      - name: id
+        label: ID
+        type: number
+      - name: name
+        label: Név
+        type: text
+      - name: image
+        label: Kép
+        type: image
+
+  egyeb:
+    path: content/egyeb
+    label: Egyéb
+    create: true
+    editor:
+      preview: false
+    fields:
+      - name: id
+        label: ID
+        type: number
+      - name: name
+        label: Név
+        type: text
+      - name: image
+        label: Kép
+        type: image
+
+data:
+  home:
+    file: content/home.json
+    label: Főoldal
+    fields:
+      - name: text
+        label: Bevezető szöveg
+        type: text
+      - name: slides
+        label: Slideshow képei
+        type: image-list
+
+  kapcsolat:
+    file: content/kapcsolat.json
+    label: Kapcsolat
+    fields:
+      - name: text
+        label: Szöveg
+        type: text
