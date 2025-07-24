@@ -1,10 +1,15 @@
-collections:
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
+
+data:
   butorok:
-    path: content/butorok
+    file: content/butorok.json
     label: Bútorok
     create: true
-    editor:
-      preview: false
     fields:
       - name: id
         label: ID
@@ -17,11 +22,9 @@ collections:
         type: image
 
   ruhak:
-    path: content/ruhak
+    file: content/ruhak.json
     label: Ruhák
     create: true
-    editor:
-      preview: false
     fields:
       - name: id
         label: ID
@@ -34,11 +37,9 @@ collections:
         type: image
 
   disztargyak:
-    path: content/disztargyak
+    file: content/disztargyak.json
     label: Dísztárgyak
     create: true
-    editor:
-      preview: false
     fields:
       - name: id
         label: ID
@@ -51,11 +52,9 @@ collections:
         type: image
 
   egyeb:
-    path: content/egyeb
+    file: content/egyeb.json
     label: Egyéb
     create: true
-    editor:
-      preview: false
     fields:
       - name: id
         label: ID
@@ -67,7 +66,6 @@ collections:
         label: Kép
         type: image
 
-data:
   home:
     file: content/home.json
     label: Főoldal
